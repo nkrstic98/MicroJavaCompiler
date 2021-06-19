@@ -1,0 +1,149 @@
+
+
+package rs.ac.bg.etf.pp1;
+
+import java_cup.runtime.*;
+import org.apache.log4j.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+parser code {:
+
+	Logger log = Logger.getLogger(getClass());
+	
+    // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
+     
+    public void report_fatal_error(String message, Object info) throws java.lang.Exception {
+      done_parsing();
+      report_error(message, info);
+    }
+  
+    public void syntax_error(Symbol cur_token) {
+        report_error("\nSintaksna greska", cur_token);
+    }
+  
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
+    }
+
+    public void report_error(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" na liniji ").append(((Symbol)info).left);
+        log.error(msg.toString());
+    }
+:}
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if (s != null && s.value != null) 
+		log.info(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+terminal String IDENT;
+terminal Integer NUMBER;
+terminal Character CHARCONST;
+terminal Boolean BOOLCONST;
+terminal PROG;
+terminal BREAK, RETURN, CONTINUE;
+terminal CONST, VOID;
+terminal CLASS, EXTENDS, NEW;
+terminal ELSE, IF, SWITCH, CASE, DO, WHILE;
+terminal PRINT, READ;
+terminal ADD, SUB;
+terminal MUL, DIV, MOD;
+terminal EQUALITY, NOEQUALITY, GREATER, GREATEREQ, LESS, LESSEQ;
+terminal AND, OR;
+terminal EQUAL;
+terminal INC, DEC;
+terminal SEMI, COMMA, DOT;
+terminal LPAREN, RPAREN;
+terminal LBRACE, RBRACE;
+terminal LSQUARE, RSQUARE;
+terminal QUESTION, DDOT;
+terminal DEFAULT, YIELD;
+
+
+nonterminal Type, Expr;
+nonterminal Factor, NewType, FactorDesignator;
+nonterminal Designator, DesignatorArray, DesignatorObject;
+nonterminal Assignop, Relop, Addop, Mulop;
+
+
+Factor ::= (FactorDes) Designator FactorDesignator
+			|
+			(NumConst) NUMBER:numConst
+			|
+			(CharConst) CHARCONST:charConst
+			|
+			(BoolConst) BOOLCONST:boolConst
+			|
+			(NewOp) NEW Type:varType NewType
+			|
+			(FactExpr) LPAREN Expr RPAREN
+			;
+			
+NewType ::= (NewType) LSQUARE Expr:elemNum RSQUARE
+			|
+			(NoNewType) /* epsilon */
+			;
+			
+FactorDesignator ::= (FactDes) LPAREN DesActPars RPAREN
+					|
+					(NoFactDes) /* epsilon */
+					;
+					
+DesActPars ::= (FactDesAP) ActPars
+				|
+				(NoFactDesAP) /* epsilon */
+				;
+
+Designator ::= (DesBasic) IDENT:varName
+				|
+				(DesArray) DesignatorArray:arrayName
+				|
+				(DesObject) DesignatorObject:objectName
+				;
+				
+DesignatorArray ::= (DesignatorArray) Designator LSQUARE Expr:arrayIndex RSQUARE;
+
+DesignatorObject ::=  (DesignatorObject) Designator DOT IDENT:field;
+
+Assignop ::= (AssignOperator) EQUAL;
+
+Relop ::= (EqualsOperator) EQUALITY
+		|
+		(NotEqualsOperator) NOEQUALITY
+		|
+		(GreaterOperator) GREATER
+		|
+		(GreaterEqOperator) GREATEREQ
+		|
+		(LessOperator) LESS
+		|
+		(LessEqOperator) LESSEQ
+		;
+
+Addop ::= (AddOperator) ADD
+		|
+		(SubOperator) SUB
+		;
+
+Mulop ::= (MulOperator) MUL 
+		|
+		(DivOperator) DIV
+		|
+		(ModOperator) MOD
+		;
+
+
+
+
+
+
+
+
+
+
+
+

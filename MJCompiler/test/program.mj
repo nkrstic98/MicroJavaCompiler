@@ -1,60 +1,7 @@
 program Program
-	int x, z = 3, y;
-	class A{int x[],y[];}
-	const int pi = 3, e = 2;
-	class B extends A {
-		int i;
- 		{
-			int getValue(int a = 5, int b, int x) int b; bool c;{ return this.i + this.x[0] + a; }
-			void m(){}
-		}
-	}
-	class C extends B{A theA;int a;}
 {
-	//Nikola
-	void main() A a; C c; int i; int x[]; char ch; int result; {
-		i = 0;
-		
-		i = ;
-		
-		result = switch(i) {
-				case 0: yield 1;
-				case 1: yield 0;
-				default: yield 5;
-			};
+	int k() {
 	
-		a = new A;
-		a.x = new int[5]; a.y = new int[5];
-		c = new C;
-		c.theA = a; c.x = new int[5];
-		x = new int[3];
-		read(c.i);
-		i = 0;
-		do{
-			read(c.x[i]); read(c.theA.x[i]);
-			i++;
-		}while(i<5);
-		print(c.getValue(c.theA.x[0]));
-		c.m();
-		read(ch);
-		
-		if(5) {
-			print(i);
-			if(2) {
-			
-			}
-		}
-		else if(-5) {
-			
-		}
-		else {
-			print(2);
-			if(2) {
-				
-			}
-			else {
-				
-			}
-		}
 	}
+	
 }

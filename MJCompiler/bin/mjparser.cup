@@ -44,6 +44,7 @@ terminal String IDENT;
 terminal Integer NUMBER;
 terminal Character CHARCONST;
 terminal BOOLCONST;
+
 terminal PROG;
 terminal BREAK, RETURN, CONTINUE;
 terminal CONST, VOID;
@@ -64,20 +65,22 @@ terminal QUESTION, DDOT;
 terminal DEFAULT, YIELD;
 
 
-nonterminal Program, ProgName, ParamDecl;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr;
+
+nonterminal ParamDecl;
 nonterminal ConstDecl, ConstVal, ConstDeclRest;
 nonterminal VarDecl, OptSquare, VarDeclRest;
 nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
-nonterminal MethodDecl, MethodTypeName, MethodType, OptFormPars;
+nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
 nonterminal Statement, Matched, Unmatched, ReturnValue, PrintExpr, StmtList;
 nonterminal DesignatorStatement, DesignatorAssignment;
 nonterminal CondFact, CondTerm, Condition;
 nonterminal CaseStmt, CaseList;
-nonterminal Type, Term, Expr, Expr1, ActPars, OptionalMinus;
-nonterminal Factor;
-nonterminal Designator;
+nonterminal ActPars, OptionalMinus;
+nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
 
 
@@ -295,9 +298,7 @@ Term ::= (MulopTerm) Term:term Mulop Factor:factor
 
 Factor ::= 	(Var) Designator:varName
 			|
-			(FuncCallNoArg) Designator:funcName LPAREN RPAREN
-			|
-			(FuncCall) Designator:funcName LPAREN ActPars RPAREN
+			(FuncCall) Designator:funcName LPAREN ActualPars RPAREN
 			|
 			(NumConst) NUMBER:numConst
 			|
@@ -311,6 +312,11 @@ Factor ::= 	(Var) Designator:varName
 			|
 			(FactExpr) LPAREN Expr RPAREN
 			;
+			
+ActualPars ::= (Actuals) ActPars
+				|
+				(NoActuals) /* epsilon */
+				;
 
 Designator ::= (DesBasic) IDENT:varName
 				|

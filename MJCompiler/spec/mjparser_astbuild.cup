@@ -44,6 +44,7 @@ terminal String IDENT;
 terminal Integer NUMBER;
 terminal Character CHARCONST;
 terminal BOOLCONST;
+
 terminal PROG;
 terminal BREAK, RETURN, CONTINUE;
 terminal CONST, VOID;
@@ -64,8 +65,9 @@ terminal QUESTION, DDOT;
 terminal DEFAULT, YIELD;
 
 
-nonterminal Program Program;
-nonterminal ProgName ProgName;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr;
+
 nonterminal ParamDecl ParamDecl;
 nonterminal ConstDecl ConstDecl;
 nonterminal ConstVal ConstVal;
@@ -77,9 +79,6 @@ nonterminal VarDeclList VarDeclList;
 nonterminal MethodDeclList MethodDeclList;
 nonterminal ClassDecl ClassDecl;
 nonterminal ClassMethods ClassMethods;
-nonterminal MethodDecl MethodDecl;
-nonterminal MethodTypeName MethodTypeName;
-nonterminal MethodType MethodType;
 nonterminal OptFormPars OptFormPars;
 nonterminal FormPars FormPars;
 nonterminal FormParamDecl FormParamDecl;
@@ -96,14 +95,9 @@ nonterminal CondTerm CondTerm;
 nonterminal Condition Condition;
 nonterminal CaseStmt CaseStmt;
 nonterminal CaseList CaseList;
-nonterminal Type Type;
-nonterminal Term Term;
-nonterminal Expr Expr;
-nonterminal Expr1 Expr1;
 nonterminal ActPars ActPars;
 nonterminal OptionalMinus OptionalMinus;
-nonterminal Factor Factor;
-nonterminal Designator Designator;
+nonterminal ActualPars ActualPars;
 nonterminal Assignop Assignop;
 nonterminal Relop Relop;
 nonterminal Addop Addop;
@@ -324,9 +318,7 @@ Term ::= (MulopTerm) Term:term Mulop:M1 Factor:factor {: RESULT=new MulopTerm(te
 
 Factor ::= 	(Var) Designator:varName {: RESULT=new Var(varName); RESULT.setLine(varNameleft); :}
 			|
-			(FuncCallNoArg) Designator:funcName LPAREN RPAREN {: RESULT=new FuncCallNoArg(funcName); RESULT.setLine(funcNameleft); :}
-			|
-			(FuncCall) Designator:funcName LPAREN ActPars:A1 RPAREN {: RESULT=new FuncCall(funcName, A1); RESULT.setLine(funcNameleft); :}
+			(FuncCall) Designator:funcName LPAREN ActualPars:A1 RPAREN {: RESULT=new FuncCall(funcName, A1); RESULT.setLine(funcNameleft); :}
 			|
 			(NumConst) NUMBER:numConst {: RESULT=new NumConst(numConst); RESULT.setLine(numConstleft); :}
 			|
@@ -340,6 +332,11 @@ Factor ::= 	(Var) Designator:varName {: RESULT=new Var(varName); RESULT.setLine(
 			|
 			(FactExpr) LPAREN Expr:E1 RPAREN {: RESULT=new FactExpr(E1); RESULT.setLine(E1left); :}
 			;
+			
+ActualPars ::= (Actuals) ActPars:A1 {: RESULT=new Actuals(A1); RESULT.setLine(A1left); :}
+				|
+				(NoActuals) {: RESULT=new NoActuals(); :} /* epsilon */
+				;
 
 Designator ::= (DesBasic) IDENT:varName {: RESULT=new DesBasic(varName); RESULT.setLine(varNameleft); :}
 				|

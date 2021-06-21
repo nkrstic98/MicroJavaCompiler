@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,14 +9,11 @@ public class VarDeclMore extends VarDeclRest {
 
     private VarDeclRest VarDeclRest;
     private String varName;
-    private OptSquare OptSquare;
 
-    public VarDeclMore (VarDeclRest VarDeclRest, String varName, OptSquare OptSquare) {
+    public VarDeclMore (VarDeclRest VarDeclRest, String varName) {
         this.VarDeclRest=VarDeclRest;
         if(VarDeclRest!=null) VarDeclRest.setParent(this);
         this.varName=varName;
-        this.OptSquare=OptSquare;
-        if(OptSquare!=null) OptSquare.setParent(this);
     }
 
     public VarDeclRest getVarDeclRest() {
@@ -35,32 +32,21 @@ public class VarDeclMore extends VarDeclRest {
         this.varName=varName;
     }
 
-    public OptSquare getOptSquare() {
-        return OptSquare;
-    }
-
-    public void setOptSquare(OptSquare OptSquare) {
-        this.OptSquare=OptSquare;
-    }
-
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
     public void childrenAccept(Visitor visitor) {
         if(VarDeclRest!=null) VarDeclRest.accept(visitor);
-        if(OptSquare!=null) OptSquare.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(VarDeclRest!=null) VarDeclRest.traverseTopDown(visitor);
-        if(OptSquare!=null) OptSquare.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(VarDeclRest!=null) VarDeclRest.traverseBottomUp(visitor);
-        if(OptSquare!=null) OptSquare.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -76,12 +62,6 @@ public class VarDeclMore extends VarDeclRest {
         buffer.append("\n");
 
         buffer.append(" "+tab+varName);
-        buffer.append("\n");
-
-        if(OptSquare!=null)
-            buffer.append(OptSquare.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
         buffer.append("\n");
 
         buffer.append(tab);

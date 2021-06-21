@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -94,11 +94,10 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(VarInc VarInc) { visit(); }
     public void visit(ProcedureCall ProcedureCall) { visit(); }
     public void visit(DesAssign DesAssign) { visit(); }
-    public void visit(SinglePrintExpr SinglePrintExpr) { visit(); }
-    public void visit(MultiPrintExpr MultiPrintExpr) { visit(); }
     public void visit(NoStmt NoStmt) { visit(); }
     public void visit(MultiStmtList MultiStmtList) { visit(); }
     public void visit(BasicStmt BasicStmt) { visit(); }
+    public void visit(PrintStmtwithNumber PrintStmtwithNumber) { visit(); }
     public void visit(PrintStmt PrintStmt) { visit(); }
     public void visit(ReadStmt ReadStmt) { visit(); }
     public void visit(RetNoValStmt RetNoValStmt) { visit(); }
@@ -116,6 +115,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MatchedStmt MatchedStmt) { visit(); }
     public void visit(Type Type) { visit(); }
     public void visit(FormParamDeclDerived1 FormParamDeclDerived1) { visit(); }
+    public void visit(FormParamArray FormParamArray) { visit(); }
     public void visit(FormParam FormParam) { visit(); }
     public void visit(FormParsDerived1 FormParsDerived1) { visit(); }
     public void visit(NoFormParams NoFormParams) { visit(); }
@@ -137,9 +137,11 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(NoSquares NoSquares) { visit(); }
     public void visit(Squares Squares) { visit(); }
     public void visit(NoVarDeclMore NoVarDeclMore) { visit(); }
+    public void visit(VarDeclArrayMore VarDeclArrayMore) { visit(); }
     public void visit(VarDeclMore VarDeclMore) { visit(); }
     public void visit(VarDeclDerived2 VarDeclDerived2) { visit(); }
     public void visit(VarDeclDerived1 VarDeclDerived1) { visit(); }
+    public void visit(VarDeclarationArray VarDeclarationArray) { visit(); }
     public void visit(VarDeclaration VarDeclaration) { visit(); }
     public void visit(MultiBoolConst MultiBoolConst) { visit(); }
     public void visit(SingleBoolConst SingleBoolConst) { visit(); }

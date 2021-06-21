@@ -3,8 +3,16 @@ program Program
 	const char c = 'c', b = 'b';
 	const bool cond = true;
 	int m;
-	int q, w;
+	int q, p;
 	bool asd;
+	int niz[];
+	char niz1[];
 {
-	
+	void a(int bb) int b; {
+		
+	}
+
+	int main() {
+		niz = new int[10];
+	}
 }

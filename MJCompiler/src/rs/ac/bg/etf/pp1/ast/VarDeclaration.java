@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,15 +9,12 @@ public class VarDeclaration extends VarDecl {
 
     private Type Type;
     private String varName;
-    private OptSquare OptSquare;
     private VarDeclRest VarDeclRest;
 
-    public VarDeclaration (Type Type, String varName, OptSquare OptSquare, VarDeclRest VarDeclRest) {
+    public VarDeclaration (Type Type, String varName, VarDeclRest VarDeclRest) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
         this.varName=varName;
-        this.OptSquare=OptSquare;
-        if(OptSquare!=null) OptSquare.setParent(this);
         this.VarDeclRest=VarDeclRest;
         if(VarDeclRest!=null) VarDeclRest.setParent(this);
     }
@@ -38,14 +35,6 @@ public class VarDeclaration extends VarDecl {
         this.varName=varName;
     }
 
-    public OptSquare getOptSquare() {
-        return OptSquare;
-    }
-
-    public void setOptSquare(OptSquare OptSquare) {
-        this.OptSquare=OptSquare;
-    }
-
     public VarDeclRest getVarDeclRest() {
         return VarDeclRest;
     }
@@ -60,20 +49,17 @@ public class VarDeclaration extends VarDecl {
 
     public void childrenAccept(Visitor visitor) {
         if(Type!=null) Type.accept(visitor);
-        if(OptSquare!=null) OptSquare.accept(visitor);
         if(VarDeclRest!=null) VarDeclRest.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Type!=null) Type.traverseTopDown(visitor);
-        if(OptSquare!=null) OptSquare.traverseTopDown(visitor);
         if(VarDeclRest!=null) VarDeclRest.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Type!=null) Type.traverseBottomUp(visitor);
-        if(OptSquare!=null) OptSquare.traverseBottomUp(visitor);
         if(VarDeclRest!=null) VarDeclRest.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -90,12 +76,6 @@ public class VarDeclaration extends VarDecl {
         buffer.append("\n");
 
         buffer.append(" "+tab+varName);
-        buffer.append("\n");
-
-        if(OptSquare!=null)
-            buffer.append(OptSquare.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
         buffer.append("\n");
 
         if(VarDeclRest!=null)

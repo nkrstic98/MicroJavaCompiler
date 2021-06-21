@@ -137,7 +137,9 @@ ConstAssign ::= (SingleNumberConst) IDENT:constName EQUAL NUMBER:constVal {: RES
 				(MultiBoolConst) ConstAssign:C1 COMMA IDENT:constName EQUAL BOOLCONST:constVal {: RESULT=new MultiBoolConst(C1, constName, constVal); RESULT.setLine(C1left); :}
 				;
 				
-VarDecl ::= (VarDeclaration) Type:varType IDENT:varName OptSquare:O1 VarDeclRest:V2 SEMI {: RESULT=new VarDeclaration(varType, varName, O1, V2); RESULT.setLine(varTypeleft); :}
+VarDecl ::= (VarDeclaration) Type:varType IDENT:varName VarDeclRest:V1 SEMI {: RESULT=new VarDeclaration(varType, varName, V1); RESULT.setLine(varTypeleft); :}
+			|
+			(VarDeclarationArray) Type:varType IDENT:varName LSQUARE RSQUARE VarDeclRest:V1 SEMI {: RESULT=new VarDeclarationArray(varType, varName, V1); RESULT.setLine(varTypeleft); :}
 			|
 			error SEMI:l
 			{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :} {: RESULT=new VarDeclDerived1(); :}
@@ -146,7 +148,9 @@ VarDecl ::= (VarDeclaration) Type:varType IDENT:varName OptSquare:O1 VarDeclRest
 			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :} {: RESULT=new VarDeclDerived2(); :}
 			;
 			
-VarDeclRest ::= (VarDeclMore) VarDeclRest:V1 COMMA IDENT:varName OptSquare:O2 {: RESULT=new VarDeclMore(V1, varName, O2); RESULT.setLine(V1left); :}
+VarDeclRest ::= (VarDeclMore) VarDeclRest:V1 COMMA IDENT:varName {: RESULT=new VarDeclMore(V1, varName); RESULT.setLine(V1left); :}
+				|
+				(VarDeclArrayMore) VarDeclRest:V1 COMMA IDENT:varName LSQUARE RSQUARE {: RESULT=new VarDeclArrayMore(V1, varName); RESULT.setLine(V1left); :}
 				|
 				(NoVarDeclMore) {: RESULT=new NoVarDeclMore(); :} /* epsilon */
 				;
@@ -198,7 +202,9 @@ FormPars ::= (FormParams) FormPars:F1 COMMA FormParamDecl:F2 {: RESULT=new FormP
 			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :} {: RESULT=new FormParsDerived1(); :}
 			;
 
-FormParamDecl ::= (FormParam) Type:paramType IDENT:paramName OptSquare:O1 {: RESULT=new FormParam(paramType, paramName, O1); RESULT.setLine(paramTypeleft); :}	
+FormParamDecl ::= (FormParam) Type:paramType IDENT:paramName {: RESULT=new FormParam(paramType, paramName); RESULT.setLine(paramTypeleft); :}	
+				|
+				(FormParamArray) Type:paramType IDENT:paramName LSQUARE RSQUARE {: RESULT=new FormParamArray(paramType, paramName); RESULT.setLine(paramTypeleft); :}	
 				|
 				error:l
 				{: parser.report_error("Izvrsen oporavak do ) u liniji " + lleft, null);  :} {: RESULT=new FormParamDeclDerived1(); :}	
@@ -237,7 +243,9 @@ Matched ::= (DesStmt) DesignatorStatement:D1 SEMI {: RESULT=new DesStmt(D1); RES
 			|
 			(ReadStmt) READ LPAREN Designator:D1 RPAREN SEMI {: RESULT=new ReadStmt(D1); RESULT.setLine(D1left); :}
 			|
-			(PrintStmt) PRINT LPAREN PrintExpr:P1 RPAREN SEMI {: RESULT=new PrintStmt(P1); RESULT.setLine(P1left); :}
+			(PrintStmt) PRINT LPAREN Expr:E1 RPAREN SEMI {: RESULT=new PrintStmt(E1); RESULT.setLine(E1left); :}
+			|
+			(PrintStmtwithNumber) PRINT LPAREN Expr:E1 COMMA NUMBER:N2 RPAREN {: RESULT=new PrintStmtwithNumber(E1, N2); RESULT.setLine(E1left); :}
 			|
 			(BasicStmt) LBRACE StmtList:S1 RBRACE {: RESULT=new BasicStmt(S1); RESULT.setLine(S1left); :}
 			;
@@ -246,11 +254,6 @@ StmtList ::= (MultiStmtList) StmtList:S1 Statement:S2 {: RESULT=new MultiStmtLis
 			|
 			(NoStmt) {: RESULT=new NoStmt(); :} /* epsilon */
 			;
-				
-PrintExpr ::= (MultiPrintExpr) Expr:E1 COMMA NUMBER:N2 {: RESULT=new MultiPrintExpr(E1, N2); RESULT.setLine(E1left); :}
-				|
-				(SinglePrintExpr) Expr:E1 {: RESULT=new SinglePrintExpr(E1); RESULT.setLine(E1left); :}
-				;
 
 DesignatorStatement ::= (DesAssign) DesignatorAssignment:D1 {: RESULT=new DesAssign(D1); RESULT.setLine(D1left); :}
 						|

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -94,11 +94,10 @@ public interface Visitor {
     public void visit(VarInc VarInc);
     public void visit(ProcedureCall ProcedureCall);
     public void visit(DesAssign DesAssign);
-    public void visit(SinglePrintExpr SinglePrintExpr);
-    public void visit(MultiPrintExpr MultiPrintExpr);
     public void visit(NoStmt NoStmt);
     public void visit(MultiStmtList MultiStmtList);
     public void visit(BasicStmt BasicStmt);
+    public void visit(PrintStmtwithNumber PrintStmtwithNumber);
     public void visit(PrintStmt PrintStmt);
     public void visit(ReadStmt ReadStmt);
     public void visit(RetNoValStmt RetNoValStmt);
@@ -116,6 +115,7 @@ public interface Visitor {
     public void visit(MatchedStmt MatchedStmt);
     public void visit(Type Type);
     public void visit(FormParamDeclDerived1 FormParamDeclDerived1);
+    public void visit(FormParamArray FormParamArray);
     public void visit(FormParam FormParam);
     public void visit(FormParsDerived1 FormParsDerived1);
     public void visit(NoFormParams NoFormParams);
@@ -137,9 +137,11 @@ public interface Visitor {
     public void visit(NoSquares NoSquares);
     public void visit(Squares Squares);
     public void visit(NoVarDeclMore NoVarDeclMore);
+    public void visit(VarDeclArrayMore VarDeclArrayMore);
     public void visit(VarDeclMore VarDeclMore);
     public void visit(VarDeclDerived2 VarDeclDerived2);
     public void visit(VarDeclDerived1 VarDeclDerived1);
+    public void visit(VarDeclarationArray VarDeclarationArray);
     public void visit(VarDeclaration VarDeclaration);
     public void visit(MultiBoolConst MultiBoolConst);
     public void visit(SingleBoolConst SingleBoolConst);

@@ -1,16 +1,16 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MultiPrintExpr extends PrintExpr {
+public class PrintStmtwithNumber extends Matched {
 
     private Expr Expr;
     private Integer N2;
 
-    public MultiPrintExpr (Expr Expr, Integer N2) {
+    public PrintStmtwithNumber (Expr Expr, Integer N2) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
         this.N2=N2;
@@ -53,7 +53,7 @@ public class MultiPrintExpr extends PrintExpr {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("MultiPrintExpr(\n");
+        buffer.append("PrintStmtwithNumber(\n");
 
         if(Expr!=null)
             buffer.append(Expr.toString("  "+tab));
@@ -65,7 +65,7 @@ public class MultiPrintExpr extends PrintExpr {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [MultiPrintExpr]");
+        buffer.append(") [PrintStmtwithNumber]");
         return buffer.toString();
     }
 }

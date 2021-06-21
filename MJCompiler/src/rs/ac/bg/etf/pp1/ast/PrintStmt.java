@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 13:12:39
+// 21/5/2021 15:25:53
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class PrintStmt extends Matched {
 
-    private PrintExpr PrintExpr;
+    private Expr Expr;
 
-    public PrintStmt (PrintExpr PrintExpr) {
-        this.PrintExpr=PrintExpr;
-        if(PrintExpr!=null) PrintExpr.setParent(this);
+    public PrintStmt (Expr Expr) {
+        this.Expr=Expr;
+        if(Expr!=null) Expr.setParent(this);
     }
 
-    public PrintExpr getPrintExpr() {
-        return PrintExpr;
+    public Expr getExpr() {
+        return Expr;
     }
 
-    public void setPrintExpr(PrintExpr PrintExpr) {
-        this.PrintExpr=PrintExpr;
+    public void setExpr(Expr Expr) {
+        this.Expr=Expr;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class PrintStmt extends Matched {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(PrintExpr!=null) PrintExpr.accept(visitor);
+        if(Expr!=null) Expr.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(PrintExpr!=null) PrintExpr.traverseTopDown(visitor);
+        if(Expr!=null) Expr.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(PrintExpr!=null) PrintExpr.traverseBottomUp(visitor);
+        if(Expr!=null) Expr.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class PrintStmt extends Matched {
         buffer.append(tab);
         buffer.append("PrintStmt(\n");
 
-        if(PrintExpr!=null)
-            buffer.append(PrintExpr.toString("  "+tab));
+        if(Expr!=null)
+            buffer.append(Expr.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

@@ -120,7 +120,9 @@ ConstAssign ::= (SingleNumberConst) IDENT:constName EQUAL NUMBER:constVal
 				(MultiBoolConst) ConstAssign COMMA IDENT:constName EQUAL BOOLCONST:constVal
 				;
 				
-VarDecl ::= (VarDeclaration) Type:varType IDENT:varName OptSquare VarDeclRest SEMI
+VarDecl ::= (VarDeclaration) Type:varType IDENT:varName VarDeclRest SEMI
+			|
+			(VarDeclarationArray) Type:varType IDENT:varName LSQUARE RSQUARE VarDeclRest SEMI
 			|
 			error SEMI:l
 			{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :}
@@ -129,7 +131,9 @@ VarDecl ::= (VarDeclaration) Type:varType IDENT:varName OptSquare VarDeclRest SE
 			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :}
 			;
 			
-VarDeclRest ::= (VarDeclMore) VarDeclRest COMMA IDENT:varName OptSquare
+VarDeclRest ::= (VarDeclMore) VarDeclRest COMMA IDENT:varName
+				|
+				(VarDeclArrayMore) VarDeclRest COMMA IDENT:varName LSQUARE RSQUARE
 				|
 				(NoVarDeclMore) /* epsilon */
 				;
@@ -181,7 +185,9 @@ FormPars ::= (FormParams) FormPars COMMA FormParamDecl
 			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :}
 			;
 
-FormParamDecl ::= (FormParam) Type:paramType IDENT:paramName OptSquare	
+FormParamDecl ::= (FormParam) Type:paramType IDENT:paramName	
+				|
+				(FormParamArray) Type:paramType IDENT:paramName LSQUARE RSQUARE	
 				|
 				error:l
 				{: parser.report_error("Izvrsen oporavak do ) u liniji " + lleft, null);  :}	
@@ -220,7 +226,9 @@ Matched ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(ReadStmt) READ LPAREN Designator RPAREN SEMI
 			|
-			(PrintStmt) PRINT LPAREN PrintExpr RPAREN SEMI
+			(PrintStmt) PRINT LPAREN Expr RPAREN SEMI
+			|
+			(PrintStmtwithNumber) PRINT LPAREN Expr COMMA NUMBER RPAREN
 			|
 			(BasicStmt) LBRACE StmtList RBRACE
 			;
@@ -229,11 +237,6 @@ StmtList ::= (MultiStmtList) StmtList Statement
 			|
 			(NoStmt) /* epsilon */
 			;
-				
-PrintExpr ::= (MultiPrintExpr) Expr COMMA NUMBER
-				|
-				(SinglePrintExpr) Expr
-				;
 
 DesignatorStatement ::= (DesAssign) DesignatorAssignment
 						|

@@ -50,6 +50,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(Program program) {
 		Tab.chainLocalSymbols(program.getProgName().obj);
 		Tab.closeScope();
+		
+		//provera main funkcije
 	}
 
 	/*============================================OBILAZAK KONSTANTI============================================*/
@@ -254,6 +256,56 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	/*==========================================================================================================*/
 	
+	/*======================================= OBILAZAK DesignatorStatement =====================================*/
+	public void visit(Assign assign) {
+		if(!(assign.getDesignator().obj.getKind() == Obj.Elem || assign.getDesignator().obj.getKind() == Obj.Var)) {
+			report_error("Greska na liniji " + assign.getLine() + " : simbol mora biti promenljiva, ili element niza", null);
+		}
+		else if(!assign.getExpr().struct.assignableTo(assign.getDesignator().obj.getType())) {
+			report_error("Greska na liniji " + assign.getLine() + " : tipovi u dodeli vrednosti nisu kompatibilni", null);
+		}
+		else {
+			report_info("Promenljivoj se dodeljuje vrednost ", assign);
+		}
+	}
+	
+	public void visit(ProcedureCall procedureCall) {
+		Obj proc = procedureCall.getDesignator().obj;
+		if(Obj.Meth == proc.getKind()) {
+			report_info("Pronadjen poziv funkcije " + proc.getName() + " na liniji " + procedureCall.getLine(), null);
+			procedureCall.struct = proc.getType();
+		}
+		else {
+			report_error("Greska na liniji " + procedureCall.getLine() + " : ime " + proc.getName() + " nije funkcija!", null);
+			procedureCall.struct = Tab.noType;
+		}
+	}
+	
+	public void visit(VarInc varInc) {
+		if(varInc.getDesignator().obj.getKind() != Obj.Elem && varInc.getDesignator().obj.getType().getKind() != Obj.Var) {
+			report_error("Greska na liniji " + varInc.getLine() + " : simbol nije promenljiva ili element niza!", null);
+		}
+		else if(varInc.getDesignator().obj.getType() != Tab.intType) {
+			report_error("Greska na liniji " + varInc.getLine() + " promenljiva mora biti tipa int", null);
+		}
+		else {
+			report_info("Promenljiva " + varInc.getDesignator().obj.getName() + " je inkrementirana ", varInc);
+		}
+	}
+	
+	public void visit(VarDec varDec) {
+		if(varDec.getDesignator().obj.getKind() != Obj.Elem && varDec.getDesignator().obj.getType().getKind() != Obj.Var) {
+			report_error("Greska na liniji " + varDec.getLine() + " : simbol nije promenljiva ili element niza!", null);
+		}
+		else if(varDec.getDesignator().obj.getType() != Tab.intType) {
+			report_error("Greska na liniji " + varDec.getLine() + " promenljiva mora biti tipa int", null);
+		}
+		else {
+			report_info("Promenljiva " + varDec.getDesignator().obj.getName() + " je inkrementirana ", varDec);
+		}
+	}
+	/*==========================================================================================================*/
+	
 	/*============================================OBILAZAK Designatora==========================================*/
 	public void visit(DesBasic designator) {
 		Obj obj = Tab.find(designator.getVarName());
@@ -328,6 +380,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		}
 		newArray.struct = new Struct(Struct.Array, newArray.getType().struct);
 	}
+	
+	public void visit(FactExpr expr) {
+		expr.struct=  expr.getExpr().struct;
+	}
 	/*==========================================================================================================*/
 	
 
@@ -341,7 +397,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		Struct factor = mulopTerm.getFactor().struct;
 		
 		if(term.equals(factor) && term == Tab.intType) {
-			mulopTerm.struct = term;
+			mulopTerm.struct = factor;
 		}
 		else {
 			report_error("Greska na liniji " + mulopTerm.getLine() + " : nekompatibilni tipovi u izrazu", null);
@@ -368,18 +424,40 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	/*==========================================================================================================*/
 	
+	/*========================================== OBILAZAK Expr ==============================================*/
+	public void visit(BasicExpr basicExpr) {
+		basicExpr.struct = basicExpr.getExpr1().struct;
+	}
+	/*==========================================================================================================*/
 	
-	public void visit(ProcedureCall procedureCall) {
-		Obj proc = procedureCall.getDesignator().obj;
-		if(Obj.Meth == proc.getKind()) {
-			report_info("Pronadjen poziv funkcije " + proc.getName() + " na liniji " + procedureCall.getLine(), null);
-			procedureCall.struct = proc.getType();
-		}
-		else {
-			report_error("Greska na liniji " + procedureCall.getLine() + " : ime " + proc.getName() + " nije funkcija!", null);
-			procedureCall.struct = Tab.noType;
+	/*======================================= OBILAZAK Statementa ==============================================*/
+	public void visit(PrintStmt stmt) {
+		if(!(stmt.getExpr().struct.equals(Tab.intType) || stmt.getExpr().struct.equals(Tab.charType) || stmt.getExpr().struct.equals(boolType))) {
+			report_error("Greska : parametar print funkcije nije validan tip (int, char, bool)", null);
 		}
 	}
+	
+	public void visit(PrintStmtwithNumber stmt) {
+		if(!(stmt.getExpr().struct.equals(Tab.intType) || stmt.getExpr().struct.equals(Tab.charType) || stmt.getExpr().struct.equals(boolType))) {
+			report_error("Greska : parametar print funkcije nije validan tip (int, char, bool)", null);
+		}
+	}
+	
+	
+	public void visit(ReadStmt stmt) {
+		if(stmt.getDesignator().obj.getKind() != Obj.Elem && stmt.getDesignator().obj.getKind() != Obj.Var) {
+			report_error("Greska na liniji " + stmt.getLine() + " : simbol nije promenljiva ili element niza!", null);	
+		}
+		else if(!(stmt.getDesignator().obj.getType() == Tab.intType || stmt.getDesignator().obj.getType() == Tab.charType || stmt.getDesignator().obj.getType() == boolType)) {
+			report_error("Greska : parametar read funkcije nije validan tip (int, char, bool)", null);
+		}
+	}
+	/*==========================================================================================================*/
+	
+	/*========================================= OBILAZAK Condition =============================================*/
+	
+	/*==========================================================================================================*/
+	
 	
 	public void visit(Type type) {
 		//provera da li se radi o tipu
@@ -401,6 +479,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			}
 		}
 	}
+	
+	public boolean passed(){
+    	return !errorDetected;
+    }
 }
 
 

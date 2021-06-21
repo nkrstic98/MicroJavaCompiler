@@ -66,7 +66,7 @@ terminal DEFAULT, YIELD;
 
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement;
 
 nonterminal ParamDecl;
 nonterminal ConstDecl, ConstVal, ConstDeclRest;
@@ -76,7 +76,7 @@ nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
 nonterminal Statement, Matched, Unmatched, ReturnValue, PrintExpr, StmtList;
-nonterminal DesignatorStatement, DesignatorAssignment;
+nonterminal DesignatorAssignment;
 nonterminal CondFact, CondTerm, Condition;
 nonterminal CaseStmt, CaseList;
 nonterminal ActPars, OptionalMinus;
@@ -232,9 +232,7 @@ PrintExpr ::= (MultiPrintExpr) Expr COMMA NUMBER
 
 DesignatorStatement ::= (DesAssign) DesignatorAssignment
 						|
-						(DesFuncCall) Designator:funcName LPAREN ActPars RPAREN
-						|
-						(DesFuncCallNoPars) Designator:funcName LPAREN RPAREN
+						(ProcedureCall) Designator:procName LPAREN ActualPars RPAREN
 						|
 						(VarInc) Designator:varName INC
 						|

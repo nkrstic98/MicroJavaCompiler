@@ -66,7 +66,7 @@ terminal DEFAULT, YIELD;
 
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement;
 
 nonterminal ParamDecl ParamDecl;
 nonterminal ConstDecl ConstDecl;
@@ -88,7 +88,6 @@ nonterminal Unmatched Unmatched;
 nonterminal ReturnValue ReturnValue;
 nonterminal PrintExpr PrintExpr;
 nonterminal StmtList StmtList;
-nonterminal DesignatorStatement DesignatorStatement;
 nonterminal DesignatorAssignment DesignatorAssignment;
 nonterminal CondFact CondFact;
 nonterminal CondTerm CondTerm;
@@ -252,9 +251,7 @@ PrintExpr ::= (MultiPrintExpr) Expr:E1 COMMA NUMBER:N2 {: RESULT=new MultiPrintE
 
 DesignatorStatement ::= (DesAssign) DesignatorAssignment:D1 {: RESULT=new DesAssign(D1); RESULT.setLine(D1left); :}
 						|
-						(DesFuncCall) Designator:funcName LPAREN ActPars:A1 RPAREN {: RESULT=new DesFuncCall(funcName, A1); RESULT.setLine(funcNameleft); :}
-						|
-						(DesFuncCallNoPars) Designator:funcName LPAREN RPAREN {: RESULT=new DesFuncCallNoPars(funcName); RESULT.setLine(funcNameleft); :}
+						(ProcedureCall) Designator:procName LPAREN ActualPars:A1 RPAREN {: RESULT=new ProcedureCall(procName, A1); RESULT.setLine(procNameleft); :}
 						|
 						(VarInc) Designator:varName INC {: RESULT=new VarInc(varName); RESULT.setLine(varNameleft); :}
 						|

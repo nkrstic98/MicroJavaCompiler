@@ -2,8 +2,6 @@ package rs.ac.bg.etf.pp1;
 
 import org.apache.log4j.Logger;
 
-import com.sun.javafx.geom.transform.BaseTransform.Degree;
-
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.*;
@@ -88,6 +86,14 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		report_info("Obradjuje se funkcija " + methodTypeName.getMethName(), methodTypeName);
 	}
 	
+	public void visit(MethodRetType retType) {
+		retType.struct = retType.getType().struct;
+	}
+	
+	public void visit(VoidRetType retType) {
+		retType.struct = Tab.noType;
+	}
+	
 	public void visit(MethodDecl methodDecl) {
 		Tab.chainLocalSymbols(currentMethod);
 		Tab.closeScope();
@@ -113,6 +119,18 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			report_error("Greska na liniji " + funcCall.getLine() + " : ime " + func.getName() + " nije funkcija!", null);
 			funcCall.struct = Tab.noType;
+		}
+	}
+	
+	public void visit(ProcedureCall procedureCall) {
+		Obj proc = procedureCall.getDesignator().obj;
+		if(Obj.Meth == proc.getKind()) {
+			report_info("Pronadjen poziv funkcije " + proc.getName() + " na liniji " + procedureCall.getLine(), null);
+			procedureCall.struct = proc.getType();
+		}
+		else {
+			report_error("Greska na liniji " + procedureCall.getLine() + " : ime " + proc.getName() + " nije funkcija!", null);
+			procedureCall.struct = Tab.noType;
 		}
 	}
 }

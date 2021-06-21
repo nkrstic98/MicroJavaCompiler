@@ -1,7 +1,9 @@
 program Program
 {
-	int k() {
 	
+	int k() {}
+	
+	int main() int c; {
+		k();
 	}
-	
 }

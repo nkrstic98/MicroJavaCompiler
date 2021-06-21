@@ -1,20 +1,20 @@
 // generated with ast extension for cup
 // version 0.8
-// 20/5/2021 23:12:27
+// 21/5/2021 10:0:40
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class DesFuncCall extends DesignatorStatement {
+public class ProcedureCall extends DesignatorStatement {
 
     private Designator Designator;
-    private ActPars ActPars;
+    private ActualPars ActualPars;
 
-    public DesFuncCall (Designator Designator, ActPars ActPars) {
+    public ProcedureCall (Designator Designator, ActualPars ActualPars) {
         this.Designator=Designator;
         if(Designator!=null) Designator.setParent(this);
-        this.ActPars=ActPars;
-        if(ActPars!=null) ActPars.setParent(this);
+        this.ActualPars=ActualPars;
+        if(ActualPars!=null) ActualPars.setParent(this);
     }
 
     public Designator getDesignator() {
@@ -25,12 +25,12 @@ public class DesFuncCall extends DesignatorStatement {
         this.Designator=Designator;
     }
 
-    public ActPars getActPars() {
-        return ActPars;
+    public ActualPars getActualPars() {
+        return ActualPars;
     }
 
-    public void setActPars(ActPars ActPars) {
-        this.ActPars=ActPars;
+    public void setActualPars(ActualPars ActualPars) {
+        this.ActualPars=ActualPars;
     }
 
     public void accept(Visitor visitor) {
@@ -39,25 +39,25 @@ public class DesFuncCall extends DesignatorStatement {
 
     public void childrenAccept(Visitor visitor) {
         if(Designator!=null) Designator.accept(visitor);
-        if(ActPars!=null) ActPars.accept(visitor);
+        if(ActualPars!=null) ActualPars.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Designator!=null) Designator.traverseTopDown(visitor);
-        if(ActPars!=null) ActPars.traverseTopDown(visitor);
+        if(ActualPars!=null) ActualPars.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Designator!=null) Designator.traverseBottomUp(visitor);
-        if(ActPars!=null) ActPars.traverseBottomUp(visitor);
+        if(ActualPars!=null) ActualPars.traverseBottomUp(visitor);
         accept(visitor);
     }
 
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("DesFuncCall(\n");
+        buffer.append("ProcedureCall(\n");
 
         if(Designator!=null)
             buffer.append(Designator.toString("  "+tab));
@@ -65,14 +65,14 @@ public class DesFuncCall extends DesignatorStatement {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(ActPars!=null)
-            buffer.append(ActPars.toString("  "+tab));
+        if(ActualPars!=null)
+            buffer.append(ActualPars.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [DesFuncCall]");
+        buffer.append(") [ProcedureCall]");
         return buffer.toString();
     }
 }

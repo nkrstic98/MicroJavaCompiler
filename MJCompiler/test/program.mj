@@ -1,9 +1,10 @@
 program Program
+	const int x = 5;
+	const char c = 'c', b = 'b';
+	const bool cond = true;
+	int m;
+	int q, w;
+	bool asd;
 {
 	
-	int k() {}
-	
-	int main() int c; {
-		k();
-	}
 }

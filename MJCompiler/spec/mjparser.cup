@@ -8,6 +8,8 @@ import rs.ac.bg.etf.pp1.ast.*;
 
 parser code {:
 
+	boolean errorDetected = false;
+
 	Logger log = Logger.getLogger(getClass());
 	
     // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
@@ -26,11 +28,16 @@ parser code {:
     }
 
     public void report_error(String message, Object info) {
+    	errorDetected = true;
     	StringBuilder msg = new StringBuilder(message); 
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
     }
+:}
+
+init with {:
+	errorDetected = false;
 :}
 
 scan with {:
@@ -43,7 +50,7 @@ scan with {:
 terminal String IDENT;
 terminal Integer NUMBER;
 terminal Character CHARCONST;
-terminal BOOLCONST;
+terminal String BOOLCONST;
 
 terminal PROG;
 terminal BREAK, RETURN, CONTINUE;
@@ -69,13 +76,13 @@ nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, M
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement;
 
 nonterminal ParamDecl;
-nonterminal ConstDecl, ConstVal, ConstDeclRest;
+nonterminal ConstDecl, ConstAssign;
 nonterminal VarDecl, OptSquare, VarDeclRest;
 nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
-nonterminal Statement, Matched, Unmatched, ReturnValue, PrintExpr, StmtList;
+nonterminal Statement, Matched, Unmatched, PrintExpr, StmtList;
 nonterminal DesignatorAssignment;
 nonterminal CondFact, CondTerm, Condition;
 nonterminal CaseStmt, CaseList;
@@ -97,21 +104,22 @@ ParamDecl ::= (ConstParam) ParamDecl ConstDecl
 
 ProgName ::= (ProgName) IDENT:progName;
 
-ConstDecl ::= (ConstDecl) CONST Type:constType IDENT:constName EQUAL ConstVal:constVal ConstDeclRest SEMI
+ConstDecl ::= (ConstDecl) CONST Type:constType ConstAssign SEMI
 			;
 			
-ConstDeclRest ::= (ConstDeclMore) ConstDeclRest COMMA IDENT:constName EQUAL ConstVal:constVal
-					|
-					(NoConstDeclMore) /* epsilon */
-					;
-			
-ConstVal ::= (NumConstVal) NUMBER:val
-				| 
-				(CharConstVal) CHARCONST:val
+ConstAssign ::= (SingleNumberConst) IDENT:constName EQUAL NUMBER:constVal
 				|
-				(BoolConstVal) BOOLCONST:val
+				(MultiNumberConst) ConstAssign COMMA IDENT:constName EQUAL NUMBER:constVal
+				|
+				(SingleCharConst) IDENT:constName EQUAL CHARCONST:constVal
+				|
+				(MultiCharConst) ConstAssign COMMA IDENT:constName EQUAL CHARCONST:constVal
+				|
+				(SingleBoolConst )IDENT:constName EQUAL BOOLCONST:constVal
+				|
+				(MultiBoolConst) ConstAssign COMMA IDENT:constName EQUAL BOOLCONST:constVal
 				;
-
+				
 VarDecl ::= (VarDeclaration) Type:varType IDENT:varName OptSquare VarDeclRest SEMI
 			|
 			error SEMI:l
@@ -206,7 +214,9 @@ Matched ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(ContinueStmt) CONTINUE SEMI
 			|
-			(RetStmt) RETURN ReturnValue:retVal SEMI
+			(RetStmt) RETURN Expr:retVal SEMI
+			|
+			(RetNoValStmt) RETURN SEMI
 			|
 			(ReadStmt) READ LPAREN Designator RPAREN SEMI
 			|
@@ -219,11 +229,6 @@ StmtList ::= (MultiStmtList) StmtList Statement
 			|
 			(NoStmt) /* epsilon */
 			;
-			
-ReturnValue ::= (RetVal) Expr:retVal
-				|
-				(NoRetVal) /* epsilon */
-				;
 				
 PrintExpr ::= (MultiPrintExpr) Expr COMMA NUMBER
 				|

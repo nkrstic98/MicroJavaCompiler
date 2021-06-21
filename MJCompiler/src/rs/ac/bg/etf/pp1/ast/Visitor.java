@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 10:0:40
+// 21/5/2021 13:12:39
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -20,7 +20,6 @@ public interface Visitor {
     public void visit(Factor Factor);
     public void visit(CondTerm CondTerm);
     public void visit(Designator Designator);
-    public void visit(ConstDeclRest ConstDeclRest);
     public void visit(Term Term);
     public void visit(Condition Condition);
     public void visit(DesignatorAssignment DesignatorAssignment);
@@ -28,12 +27,12 @@ public interface Visitor {
     public void visit(StmtList StmtList);
     public void visit(VarDeclRest VarDeclRest);
     public void visit(VarDeclList VarDeclList);
-    public void visit(ConstVal ConstVal);
     public void visit(Expr Expr);
     public void visit(Expr1 Expr1);
     public void visit(ActPars ActPars);
     public void visit(DesignatorStatement DesignatorStatement);
     public void visit(ActualPars ActualPars);
+    public void visit(ConstAssign ConstAssign);
     public void visit(Statement Statement);
     public void visit(VarDecl VarDecl);
     public void visit(ClassDecl ClassDecl);
@@ -41,7 +40,6 @@ public interface Visitor {
     public void visit(MethodDeclList MethodDeclList);
     public void visit(OptionalMinus OptionalMinus);
     public void visit(ParamDecl ParamDecl);
-    public void visit(ReturnValue ReturnValue);
     public void visit(FormPars FormPars);
     public void visit(ClassMethods ClassMethods);
     public void visit(PrintExpr PrintExpr);
@@ -98,13 +96,12 @@ public interface Visitor {
     public void visit(DesAssign DesAssign);
     public void visit(SinglePrintExpr SinglePrintExpr);
     public void visit(MultiPrintExpr MultiPrintExpr);
-    public void visit(NoRetVal NoRetVal);
-    public void visit(RetVal RetVal);
     public void visit(NoStmt NoStmt);
     public void visit(MultiStmtList MultiStmtList);
     public void visit(BasicStmt BasicStmt);
     public void visit(PrintStmt PrintStmt);
     public void visit(ReadStmt ReadStmt);
+    public void visit(RetNoValStmt RetNoValStmt);
     public void visit(RetStmt RetStmt);
     public void visit(ContinueStmt ContinueStmt);
     public void visit(BreakStmt BreakStmt);
@@ -144,11 +141,12 @@ public interface Visitor {
     public void visit(VarDeclDerived2 VarDeclDerived2);
     public void visit(VarDeclDerived1 VarDeclDerived1);
     public void visit(VarDeclaration VarDeclaration);
-    public void visit(BoolConstVal BoolConstVal);
-    public void visit(CharConstVal CharConstVal);
-    public void visit(NumConstVal NumConstVal);
-    public void visit(NoConstDeclMore NoConstDeclMore);
-    public void visit(ConstDeclMore ConstDeclMore);
+    public void visit(MultiBoolConst MultiBoolConst);
+    public void visit(SingleBoolConst SingleBoolConst);
+    public void visit(MultiCharConst MultiCharConst);
+    public void visit(SingleCharConst SingleCharConst);
+    public void visit(MultiNumberConst MultiNumberConst);
+    public void visit(SingleNumberConst SingleNumberConst);
     public void visit(ConstDecl ConstDecl);
     public void visit(ProgName ProgName);
     public void visit(ParamDeclDerived1 ParamDeclDerived1);

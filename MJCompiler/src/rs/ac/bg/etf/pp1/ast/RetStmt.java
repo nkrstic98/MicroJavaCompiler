@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 10:0:40
+// 21/5/2021 13:12:39
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class RetStmt extends Matched {
 
-    private ReturnValue ReturnValue;
+    private Expr Expr;
 
-    public RetStmt (ReturnValue ReturnValue) {
-        this.ReturnValue=ReturnValue;
-        if(ReturnValue!=null) ReturnValue.setParent(this);
+    public RetStmt (Expr Expr) {
+        this.Expr=Expr;
+        if(Expr!=null) Expr.setParent(this);
     }
 
-    public ReturnValue getReturnValue() {
-        return ReturnValue;
+    public Expr getExpr() {
+        return Expr;
     }
 
-    public void setReturnValue(ReturnValue ReturnValue) {
-        this.ReturnValue=ReturnValue;
+    public void setExpr(Expr Expr) {
+        this.Expr=Expr;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class RetStmt extends Matched {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(ReturnValue!=null) ReturnValue.accept(visitor);
+        if(Expr!=null) Expr.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(ReturnValue!=null) ReturnValue.traverseTopDown(visitor);
+        if(Expr!=null) Expr.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(ReturnValue!=null) ReturnValue.traverseBottomUp(visitor);
+        if(Expr!=null) Expr.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class RetStmt extends Matched {
         buffer.append(tab);
         buffer.append("RetStmt(\n");
 
-        if(ReturnValue!=null)
-            buffer.append(ReturnValue.toString("  "+tab));
+        if(Expr!=null)
+            buffer.append(Expr.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

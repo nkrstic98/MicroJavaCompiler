@@ -1,13 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class NoFormParams extends FormPars {
 
-    public NoFormParams () {
+    private FormParamDecl FormParamDecl;
+
+    public NoFormParams (FormParamDecl FormParamDecl) {
+        this.FormParamDecl=FormParamDecl;
+        if(FormParamDecl!=null) FormParamDecl.setParent(this);
+    }
+
+    public FormParamDecl getFormParamDecl() {
+        return FormParamDecl;
+    }
+
+    public void setFormParamDecl(FormParamDecl FormParamDecl) {
+        this.FormParamDecl=FormParamDecl;
     }
 
     public void accept(Visitor visitor) {
@@ -15,13 +27,16 @@ public class NoFormParams extends FormPars {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(FormParamDecl!=null) FormParamDecl.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(FormParamDecl!=null) FormParamDecl.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(FormParamDecl!=null) FormParamDecl.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -29,6 +44,12 @@ public class NoFormParams extends FormPars {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("NoFormParams(\n");
+
+        if(FormParamDecl!=null)
+            buffer.append(FormParamDecl.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
 
         buffer.append(tab);
         buffer.append(") [NoFormParams]");

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class SwitchExpretion extends Expr {
 
     private Expr Expr;
-    private CaseStmt CaseStmt;
+    private CaseList CaseList;
 
-    public SwitchExpretion (Expr Expr, CaseStmt CaseStmt) {
+    public SwitchExpretion (Expr Expr, CaseList CaseList) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-        this.CaseStmt=CaseStmt;
-        if(CaseStmt!=null) CaseStmt.setParent(this);
+        this.CaseList=CaseList;
+        if(CaseList!=null) CaseList.setParent(this);
     }
 
     public Expr getExpr() {
@@ -25,12 +25,12 @@ public class SwitchExpretion extends Expr {
         this.Expr=Expr;
     }
 
-    public CaseStmt getCaseStmt() {
-        return CaseStmt;
+    public CaseList getCaseList() {
+        return CaseList;
     }
 
-    public void setCaseStmt(CaseStmt CaseStmt) {
-        this.CaseStmt=CaseStmt;
+    public void setCaseList(CaseList CaseList) {
+        this.CaseList=CaseList;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class SwitchExpretion extends Expr {
 
     public void childrenAccept(Visitor visitor) {
         if(Expr!=null) Expr.accept(visitor);
-        if(CaseStmt!=null) CaseStmt.accept(visitor);
+        if(CaseList!=null) CaseList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
-        if(CaseStmt!=null) CaseStmt.traverseTopDown(visitor);
+        if(CaseList!=null) CaseList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Expr!=null) Expr.traverseBottomUp(visitor);
-        if(CaseStmt!=null) CaseStmt.traverseBottomUp(visitor);
+        if(CaseList!=null) CaseList.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class SwitchExpretion extends Expr {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(CaseStmt!=null)
-            buffer.append(CaseStmt.toString("  "+tab));
+        if(CaseList!=null)
+            buffer.append(CaseList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

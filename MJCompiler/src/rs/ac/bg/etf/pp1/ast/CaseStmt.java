@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,30 +9,29 @@ public class CaseStmt implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private CaseList CaseList;
-    private Expr Expr;
+    private Integer N1;
+    private StmtList StmtList;
 
-    public CaseStmt (CaseList CaseList, Expr Expr) {
-        this.CaseList=CaseList;
-        if(CaseList!=null) CaseList.setParent(this);
-        this.Expr=Expr;
-        if(Expr!=null) Expr.setParent(this);
+    public CaseStmt (Integer N1, StmtList StmtList) {
+        this.N1=N1;
+        this.StmtList=StmtList;
+        if(StmtList!=null) StmtList.setParent(this);
     }
 
-    public CaseList getCaseList() {
-        return CaseList;
+    public Integer getN1() {
+        return N1;
     }
 
-    public void setCaseList(CaseList CaseList) {
-        this.CaseList=CaseList;
+    public void setN1(Integer N1) {
+        this.N1=N1;
     }
 
-    public Expr getExpr() {
-        return Expr;
+    public StmtList getStmtList() {
+        return StmtList;
     }
 
-    public void setExpr(Expr Expr) {
-        this.Expr=Expr;
+    public void setStmtList(StmtList StmtList) {
+        this.StmtList=StmtList;
     }
 
     public SyntaxNode getParent() {
@@ -56,19 +55,16 @@ public class CaseStmt implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(CaseList!=null) CaseList.accept(visitor);
-        if(Expr!=null) Expr.accept(visitor);
+        if(StmtList!=null) StmtList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(CaseList!=null) CaseList.traverseTopDown(visitor);
-        if(Expr!=null) Expr.traverseTopDown(visitor);
+        if(StmtList!=null) StmtList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(CaseList!=null) CaseList.traverseBottomUp(visitor);
-        if(Expr!=null) Expr.traverseBottomUp(visitor);
+        if(StmtList!=null) StmtList.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -77,14 +73,11 @@ public class CaseStmt implements SyntaxNode {
         buffer.append(tab);
         buffer.append("CaseStmt(\n");
 
-        if(CaseList!=null)
-            buffer.append(CaseList.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
+        buffer.append(" "+tab+N1);
         buffer.append("\n");
 
-        if(Expr!=null)
-            buffer.append(Expr.toString("  "+tab));
+        if(StmtList!=null)
+            buffer.append(StmtList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

@@ -1,28 +1,28 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OrCond extends Condition {
+public class OrCond extends CondTermList {
 
-    private Condition Condition;
+    private CondTermList CondTermList;
     private CondTerm CondTerm;
 
-    public OrCond (Condition Condition, CondTerm CondTerm) {
-        this.Condition=Condition;
-        if(Condition!=null) Condition.setParent(this);
+    public OrCond (CondTermList CondTermList, CondTerm CondTerm) {
+        this.CondTermList=CondTermList;
+        if(CondTermList!=null) CondTermList.setParent(this);
         this.CondTerm=CondTerm;
         if(CondTerm!=null) CondTerm.setParent(this);
     }
 
-    public Condition getCondition() {
-        return Condition;
+    public CondTermList getCondTermList() {
+        return CondTermList;
     }
 
-    public void setCondition(Condition Condition) {
-        this.Condition=Condition;
+    public void setCondTermList(CondTermList CondTermList) {
+        this.CondTermList=CondTermList;
     }
 
     public CondTerm getCondTerm() {
@@ -38,18 +38,18 @@ public class OrCond extends Condition {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Condition!=null) Condition.accept(visitor);
+        if(CondTermList!=null) CondTermList.accept(visitor);
         if(CondTerm!=null) CondTerm.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Condition!=null) Condition.traverseTopDown(visitor);
+        if(CondTermList!=null) CondTermList.traverseTopDown(visitor);
         if(CondTerm!=null) CondTerm.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Condition!=null) Condition.traverseBottomUp(visitor);
+        if(CondTermList!=null) CondTermList.traverseBottomUp(visitor);
         if(CondTerm!=null) CondTerm.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -59,8 +59,8 @@ public class OrCond extends Condition {
         buffer.append(tab);
         buffer.append("OrCond(\n");
 
-        if(Condition!=null)
-            buffer.append(Condition.toString("  "+tab));
+        if(CondTermList!=null)
+            buffer.append(CondTermList.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

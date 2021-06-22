@@ -1,23 +1,23 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MatchedIfElse extends Matched {
+public class MatchedIfElse extends Statement {
 
     private Condition Condition;
-    private Matched Matched;
-    private Matched Matched1;
+    private Statement Statement;
+    private ElseStmt ElseStmt;
 
-    public MatchedIfElse (Condition Condition, Matched Matched, Matched Matched1) {
+    public MatchedIfElse (Condition Condition, Statement Statement, ElseStmt ElseStmt) {
         this.Condition=Condition;
         if(Condition!=null) Condition.setParent(this);
-        this.Matched=Matched;
-        if(Matched!=null) Matched.setParent(this);
-        this.Matched1=Matched1;
-        if(Matched1!=null) Matched1.setParent(this);
+        this.Statement=Statement;
+        if(Statement!=null) Statement.setParent(this);
+        this.ElseStmt=ElseStmt;
+        if(ElseStmt!=null) ElseStmt.setParent(this);
     }
 
     public Condition getCondition() {
@@ -28,20 +28,20 @@ public class MatchedIfElse extends Matched {
         this.Condition=Condition;
     }
 
-    public Matched getMatched() {
-        return Matched;
+    public Statement getStatement() {
+        return Statement;
     }
 
-    public void setMatched(Matched Matched) {
-        this.Matched=Matched;
+    public void setStatement(Statement Statement) {
+        this.Statement=Statement;
     }
 
-    public Matched getMatched1() {
-        return Matched1;
+    public ElseStmt getElseStmt() {
+        return ElseStmt;
     }
 
-    public void setMatched1(Matched Matched1) {
-        this.Matched1=Matched1;
+    public void setElseStmt(ElseStmt ElseStmt) {
+        this.ElseStmt=ElseStmt;
     }
 
     public void accept(Visitor visitor) {
@@ -50,21 +50,21 @@ public class MatchedIfElse extends Matched {
 
     public void childrenAccept(Visitor visitor) {
         if(Condition!=null) Condition.accept(visitor);
-        if(Matched!=null) Matched.accept(visitor);
-        if(Matched1!=null) Matched1.accept(visitor);
+        if(Statement!=null) Statement.accept(visitor);
+        if(ElseStmt!=null) ElseStmt.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Condition!=null) Condition.traverseTopDown(visitor);
-        if(Matched!=null) Matched.traverseTopDown(visitor);
-        if(Matched1!=null) Matched1.traverseTopDown(visitor);
+        if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(ElseStmt!=null) ElseStmt.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Condition!=null) Condition.traverseBottomUp(visitor);
-        if(Matched!=null) Matched.traverseBottomUp(visitor);
-        if(Matched1!=null) Matched1.traverseBottomUp(visitor);
+        if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(ElseStmt!=null) ElseStmt.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -79,14 +79,14 @@ public class MatchedIfElse extends Matched {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Matched!=null)
-            buffer.append(Matched.toString("  "+tab));
+        if(Statement!=null)
+            buffer.append(Statement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Matched1!=null)
-            buffer.append(Matched1.toString("  "+tab));
+        if(ElseStmt!=null)
+            buffer.append(ElseStmt.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

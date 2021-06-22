@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 21/5/2021 20:28:6
+// 22/5/2021 23:13:8
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,15 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class MultiCaseList extends CaseList {
 
     private CaseList CaseList;
-    private Integer caseLabel;
-    private StmtList StmtList;
+    private CaseStmt CaseStmt;
 
-    public MultiCaseList (CaseList CaseList, Integer caseLabel, StmtList StmtList) {
+    public MultiCaseList (CaseList CaseList, CaseStmt CaseStmt) {
         this.CaseList=CaseList;
         if(CaseList!=null) CaseList.setParent(this);
-        this.caseLabel=caseLabel;
-        this.StmtList=StmtList;
-        if(StmtList!=null) StmtList.setParent(this);
+        this.CaseStmt=CaseStmt;
+        if(CaseStmt!=null) CaseStmt.setParent(this);
     }
 
     public CaseList getCaseList() {
@@ -27,20 +25,12 @@ public class MultiCaseList extends CaseList {
         this.CaseList=CaseList;
     }
 
-    public Integer getCaseLabel() {
-        return caseLabel;
+    public CaseStmt getCaseStmt() {
+        return CaseStmt;
     }
 
-    public void setCaseLabel(Integer caseLabel) {
-        this.caseLabel=caseLabel;
-    }
-
-    public StmtList getStmtList() {
-        return StmtList;
-    }
-
-    public void setStmtList(StmtList StmtList) {
-        this.StmtList=StmtList;
+    public void setCaseStmt(CaseStmt CaseStmt) {
+        this.CaseStmt=CaseStmt;
     }
 
     public void accept(Visitor visitor) {
@@ -49,18 +39,18 @@ public class MultiCaseList extends CaseList {
 
     public void childrenAccept(Visitor visitor) {
         if(CaseList!=null) CaseList.accept(visitor);
-        if(StmtList!=null) StmtList.accept(visitor);
+        if(CaseStmt!=null) CaseStmt.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(CaseList!=null) CaseList.traverseTopDown(visitor);
-        if(StmtList!=null) StmtList.traverseTopDown(visitor);
+        if(CaseStmt!=null) CaseStmt.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(CaseList!=null) CaseList.traverseBottomUp(visitor);
-        if(StmtList!=null) StmtList.traverseBottomUp(visitor);
+        if(CaseStmt!=null) CaseStmt.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -75,11 +65,8 @@ public class MultiCaseList extends CaseList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        buffer.append(" "+tab+caseLabel);
-        buffer.append("\n");
-
-        if(StmtList!=null)
-            buffer.append(StmtList.toString("  "+tab));
+        if(CaseStmt!=null)
+            buffer.append(CaseStmt.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

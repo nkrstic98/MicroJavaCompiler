@@ -20,6 +20,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	Struct boolType = new Struct(Struct.Bool);
 	
+	int nVars = 0;
+	
 	public SemanticAnalyzer() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
 	}
@@ -48,6 +50,27 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	
 	public void visit(Program program) {
+		Obj mainMethod = Tab.find("main");
+		
+		if(mainMethod == Tab.noObj) {
+			report_error("Greska: ne postoji main funkcija u programu", null);
+		}
+		else if(mainMethod.getType() != Tab.noType) {
+			report_error("Greska : main funkcija mora biti void tipa!", null);
+		}
+		else {
+			int fpCnt = 0;
+			
+			for(Obj obj : mainMethod.getLocalSymbols()) {
+				fpCnt += obj.getFpPos();
+			}
+			
+			if(fpCnt > 0) {
+				report_error("Greska : main funkcija ne sme da ima parametre!", null);
+			}
+		}
+		
+		nVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(program.getProgName().obj);
 		Tab.closeScope();
 		
@@ -240,6 +263,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			report_info("Deklarisan je formalni parametar " + formParam.getParamName() + " metode " + currentMethod.getName(), formParam);
 			Obj newParam = Tab.insert(Obj.Var, formParam.getParamName(), formParam.getType().struct);
+			newParam.setFpPos(1);
 		}
 	}
 	
@@ -251,13 +275,14 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			report_info("Deklarisan je formalni parametar " + formParam.getParamName() + " metode " + currentMethod.getName(), formParam);
 			Obj newParam = Tab.insert(Obj.Var, formParam.getParamName(), new Struct(Struct.Array, formParam.getType().struct));
+			newParam.setFpPos(1);
 		}
 	}
 	
 	/*==========================================================================================================*/
 	
 	/*======================================= OBILAZAK DesignatorStatement =====================================*/
-	public void visit(Assign assign) {
+	public void visit(DesAssign assign) {
 		if(!(assign.getDesignator().obj.getKind() == Obj.Elem || assign.getDesignator().obj.getKind() == Obj.Var)) {
 			report_error("Greska na liniji " + assign.getLine() + " : simbol mora biti promenljiva, ili element niza", null);
 		}
@@ -318,17 +343,33 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	
 	public void visit(DesArray desArray) {
-		Obj arrayType = Tab.find(desArray.getDesignator().obj.getName());
-		desArray.obj = new Obj(Obj.Elem, "", arrayType.getType().getElemType());
-		
-		if(Struct.Array != arrayType.getType().getKind()) {
-			report_error("Tip simbola mora biti nizovnog tipa!", null);
+		if(desArray.getDesignatorArrayName().obj == Tab.noObj) {
 			desArray.obj = Tab.noObj;
+			return;
 		}
 		
 		if(desArray.getExpr().struct != Tab.intType) {
 			report_error("Greska : Indeks niza mora biti celobrojna vrednost! ", desArray);
 			desArray.obj = Tab.noObj;
+		}
+		else {
+			desArray.obj = new Obj(Obj.Elem, "", desArray.getDesignatorArrayName().obj.getType().getElemType());
+		}
+	}
+	
+	public void visit(DesignatorArrayName arrayName) {
+		Obj arrayType = Tab.find(arrayName.getVarName());
+		
+		if(arrayType == Tab.noObj) {
+			report_error("Greska : nije deklarian niz ", arrayName);
+			arrayName.obj=  Tab.noObj;
+		}
+		else if(Struct.Array != arrayType.getType().getKind()) {
+			report_error("Tip simbola mora biti nizovnog tipa!", null);
+			arrayName.obj = Tab.noObj;
+		}
+		else {
+			arrayName.obj = arrayType;
 		}
 	}
 	/*==========================================================================================================*/
@@ -455,7 +496,61 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	/*==========================================================================================================*/
 	
 	/*========================================= OBILAZAK Condition =============================================*/
+	public void visit(Condition condition) {
+		
+	}
 	
+	public void visit(SimpleCond cond) {
+		if(cond.getCondTerm().struct.getKind() != boolType.getKind()) {
+			report_error("Greska na liniji " + cond.getLine() + " : Uslov u if naredbi nije bool tipa", null);
+			cond.struct = Tab.noType;
+		}
+		else {
+			report_info("Ispitan je uslov u if naredbi ", cond);
+			cond.struct = boolType;
+		}
+	}
+	
+	public void visit(OrCond cond) {
+		Struct cond1Type = cond.getCondTermList().struct;
+		Struct cond2Type = cond.getCondTerm().struct;
+		
+		if(cond1Type.getKind() == boolType.getKind() && cond2Type.getKind() == boolType.getKind()) {
+			report_info("Ispitan uslov u if naredbi ", cond);
+			cond.struct = boolType;
+		}
+		else {
+			cond.struct = Tab.noType;
+			report_error("Greska na liniji " + cond.getLine() + " : izraz u if uslovu nije bool tipa", null);
+		}
+	}
+	
+	public void visit(AndCond cond) {
+		Struct cond1 = cond.getCondFactList().struct;
+		Struct cond2 = cond.getCondFact().struct;
+		
+	}
+	
+	public void visit(SimpleCondTerm condTerm) {
+		condTerm.struct = condTerm.getCondFact().struct;
+	}
+
+	public void visit(CondExpr condExpr) {
+		condExpr.struct = condExpr.getExpr().struct;
+	}
+	
+	public void visit(CompareExpr expr) {
+		Struct expr1 = expr.getExpr().struct;
+		Struct expr2 = expr.getExpr1().struct;
+		
+		if(!expr1.compatibleWith(expr2)) {
+			report_error("Greska: nisu komparabilni tipovi ", expr);
+			expr.struct = Tab.noType;
+		}
+		else {
+			expr.struct = boolType;
+		}
+	}
 	/*==========================================================================================================*/
 	
 	

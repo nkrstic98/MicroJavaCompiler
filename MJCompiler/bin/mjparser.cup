@@ -72,8 +72,9 @@ terminal QUESTION, DDOT;
 terminal DEFAULT, YIELD;
 
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement, CondFact, CondTerm, Condition;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList;
 
 nonterminal ParamDecl;
 nonterminal ConstDecl, ConstAssign;
@@ -82,13 +83,14 @@ nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
-nonterminal Statement, Matched, Unmatched, PrintExpr, StmtList;
+nonterminal Statement, ElseStmt, PrintExpr, StmtList;
 nonterminal DesignatorAssignment;
-nonterminal CondFact, CondTerm, Condition;
 nonterminal CaseStmt, CaseList;
 nonterminal ActPars, OptionalMinus;
 nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
+
+precedence left ELSE;
 
 
 Program ::= (Program) PROG ProgName:p ParamDecl LBRACE MethodDeclList RBRACE;
@@ -96,8 +98,6 @@ Program ::= (Program) PROG ProgName:p ParamDecl LBRACE MethodDeclList RBRACE;
 ParamDecl ::= (ConstParam) ParamDecl ConstDecl
 			|
 			(VarParam) ParamDecl VarDecl
-			|
-			(ClassParam) ParamDecl ClassDecl
 			|
 			/* epsilon */
 			;
@@ -148,15 +148,7 @@ VarDeclList ::= (VarDeclarations) VarDeclList VarDecl
 				(NoVarDecl) /* epsilon */
 				; 
 
-ClassDecl ::= (BaseClassDecl) CLASS IDENT:className LBRACE VarDeclList ClassMethods RBRACE
-				|
-				(ExtendedClass) CLASS IDENT:className EXTENDS Type:baseClass LBRACE VarDeclList ClassMethods RBRACE
-				;
-				
-ClassMethods ::= (ClassMethodList) LBRACE MethodDeclList RBRACE
-				|
-				(NoClassMethods) /* epsilon */
-				;
+
 				
 MethodDeclList ::= (MethodDeclarations) MethodDeclList MethodDecl
 					|
@@ -172,45 +164,26 @@ MethodType ::= (MethodRetType) Type:type
 				(VoidRetType) VOID:type
 				;
 				
-OptFormPars ::= (OptFormParams) FormParamDecl FormPars
+OptFormPars ::= (OptFormParams) FormPars
 				|
 				(NoFormPars) /* epsilon */
 				;
 
 FormPars ::= (FormParams) FormPars COMMA FormParamDecl
 			|
-			(NoFormParams) /* epsilon */
-			|
-			error COMMA:l
-			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :}
+			(NoFormParams) FormParamDecl
 			;
 
 FormParamDecl ::= (FormParam) Type:paramType IDENT:paramName	
 				|
 				(FormParamArray) Type:paramType IDENT:paramName LSQUARE RSQUARE	
-				|
-				error:l
-				{: parser.report_error("Izvrsen oporavak do ) u liniji " + lleft, null);  :}	
 				;
 
 Type ::= (Type) IDENT:type;
 
-Statement ::= (MatchedStmt) Matched
-				|
-			  	(UnmatchedStmt) Unmatched
-			  	;
-
-Unmatched ::= 	(UnmatchedIf) IF LPAREN Condition RPAREN Statement
-				|
-				(UnmatchedIfElse) IF LPAREN Condition RPAREN Matched ELSE Unmatched
-				|
-				error RPAREN:l
-				{: parser.report_error("Izvrsen oporavak do ) u liniji " + lleft, null);  :}	
-				;
-
-Matched ::= (DesStmt) DesignatorStatement SEMI
+Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
-			(MatchedIfElse) IF LPAREN Condition RPAREN Matched ELSE Matched
+			(MatchedIfElse) IF LPAREN Condition RPAREN Statement ElseStmt
 			|
 			(DoWhileStmt) DO Statement WHILE LPAREN Condition RPAREN SEMI
 			|
@@ -233,12 +206,17 @@ Matched ::= (DesStmt) DesignatorStatement SEMI
 			(BasicStmt) LBRACE StmtList RBRACE
 			;
 			
+ElseStmt ::= (ElseStatement) ELSE Statement
+			|
+			(NoElseStatement) /* epsilon */
+			;
+			
 StmtList ::= (MultiStmtList) StmtList Statement
 			|
 			(NoStmt) /* epsilon */
 			;
 
-DesignatorStatement ::= (DesAssign) DesignatorAssignment
+DesignatorStatement ::= (DesAssign) Designator:varName Assignop Expr:val
 						|
 						(ProcedureCall) Designator:procName LPAREN ActualPars RPAREN
 						|
@@ -248,22 +226,21 @@ DesignatorStatement ::= (DesAssign) DesignatorAssignment
 						;
 
 
-DesignatorAssignment ::= (Assign) Designator:varName Assignop Expr:val
-						|
-						(AssignError) error:l
-						;
-
 ActPars ::= (MultipleParam) ActPars COMMA Expr:paramName
 			|
 			(SingleParam) Expr:paramName
 			;
 
-Condition ::= (OrCond) Condition:cond1 OR CondTerm:cond2
+Condition ::= (Condition) CondTermList; 
+
+CondTermList ::= (OrCond) CondTermList:cond1 OR CondTerm:cond2
 			|
 			(SimpleCond) CondTerm:cond
 			;
 
-CondTerm ::= (AndCond) CondTerm:cond1 AND CondFact:cond2
+CondTerm ::= (CondTerm) CondFactList;
+
+CondFactList ::= (AndCond) CondFactList:cond1 AND CondFact:cond2
 			|
 			(SimpleCondTerm) CondFact:cond
 			;
@@ -273,23 +250,21 @@ CondFact ::= (CondExpr) Expr:expr
 			(CompareExpr) Expr:comp1 Relop Expr:comp2
 			;
 
-Expr ::= (TernarOperator) Expr1:condition QUESTION Expr1:trueB DDOT Expr1:falseB
+Expr ::= (BasicExpr) OptionalMinus Expr1:expr
 		|
-		(BasicExpr) Expr1:expr
-		|
-		(SwitchExpretion) SWITCH LPAREN Expr:chooseVal RPAREN LBRACE CaseStmt RBRACE
+		(SwitchExpretion) SWITCH LPAREN Expr:chooseVal RPAREN LBRACE CaseList RBRACE
 		;
 		
-CaseStmt ::= (CaseStmt) CaseList DEFAULT:caseLabel DDOT YIELD Expr:caseRetVal SEMI;
+CaseStmt ::= (CaseStmt) CASE NUMBER DDOT StmtList;
 
-CaseList ::= (MultiCaseList) CaseList CASE NUMBER:caseLabel DDOT StmtList
+CaseList ::= (MultiCaseList) CaseList CaseStmt
 			|
 			(NoCase) /* epsilon */
 			;
 
 Expr1 ::= (AddExpr) Expr1:term Addop Term:t
 		|
-		(TermExpr) OptionalMinus Term:term
+		(TermExpr)  Term:term
 		;
 
 OptionalMinus ::= (Minus) SUB
@@ -326,10 +301,10 @@ ActualPars ::= (Actuals) ActPars
 
 Designator ::= (DesBasic) IDENT:varName
 				|
-				(DesArray) Designator:varName LSQUARE Expr:arrayIndex RSQUARE
-				|
-				(DesObject) Designator:varName DOT IDENT:field
+				(DesArray) DesignatorArrayName LSQUARE Expr:arrayIndex RSQUARE
 				;
+				
+DesignatorArrayName ::= (DesignatorArrayName) IDENT:varName;
 
 Assignop ::= (AssignOperator) EQUAL;
 
@@ -357,9 +332,6 @@ Mulop ::= (MulOperator) MUL
 		|
 		(ModOperator) MOD
 		;
-
-
-
 
 
 

@@ -497,18 +497,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	/*========================================= OBILAZAK Condition =============================================*/
 	public void visit(Condition condition) {
-		
-	}
-	
-	public void visit(SimpleCond cond) {
-		if(cond.getCondTerm().struct.getKind() != boolType.getKind()) {
-			report_error("Greska na liniji " + cond.getLine() + " : Uslov u if naredbi nije bool tipa", null);
-			cond.struct = Tab.noType;
-		}
-		else {
-			report_info("Ispitan je uslov u if naredbi ", cond);
-			cond.struct = boolType;
-		}
+		condition.struct = condition.getCondTermList().struct;
 	}
 	
 	public void visit(OrCond cond) {
@@ -525,10 +514,32 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		}
 	}
 	
+	public void visit(SimpleCond cond) {
+		if(cond.getCondTerm().struct.getKind() != boolType.getKind()) {
+			report_error("Greska na liniji " + cond.getLine() + " : Uslov u if naredbi nije bool tipa", null);
+			cond.struct = Tab.noType;
+		}
+		else {
+			report_info("Ispitan je uslov u if naredbi ", cond);
+			cond.struct = boolType;
+		}
+	}
+	
+	public void visit(CondTerm condTerm) {
+		condTerm.struct = condTerm.getCondFactList().struct;
+	}
+	
 	public void visit(AndCond cond) {
 		Struct cond1 = cond.getCondFactList().struct;
 		Struct cond2 = cond.getCondFact().struct;
 		
+		if(!(cond1.getKind() == boolType.getKind() && cond2.getKind() == boolType.getKind())) {
+			report_error("Greska : tipovi uslova nisu ispravnog bool tipa ", cond);
+			cond.struct = Tab.noType;
+		}
+		else {
+			cond.struct = boolType;
+		}
 	}
 	
 	public void visit(SimpleCondTerm condTerm) {

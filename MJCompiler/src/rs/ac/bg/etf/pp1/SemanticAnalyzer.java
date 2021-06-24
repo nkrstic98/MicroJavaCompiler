@@ -1,5 +1,10 @@
 package rs.ac.bg.etf.pp1;
 
+import java.beans.Expression;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import rs.ac.bg.etf.pp1.ast.*;
@@ -21,6 +26,17 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	Struct boolType = new Struct(Struct.Bool);
 	
 	int nVars = 0;
+	
+	/*======= Uslovi za break i continue =========*/
+	boolean in_loop = false;
+	boolean in_switch = false;
+	/*============================================*/
+	
+	/*=========== Pozivanje metoda ===============*/
+	List<Obj> calledMethodsList = new ArrayList<Obj>();
+	List<List<Struct>> actualParams = new ArrayList<List<Struct>>();
+	boolean function_called = false;
+	/*============================================*/
 	
 	public SemanticAnalyzer() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
@@ -240,6 +256,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodDecl methodDecl) {
+		if(!returnFound && currentMethod.getType() != Tab.noType) {
+			report_error("Greska : funkcija " + currentMethod.getName() + " nema return iskaz ", methodDecl);
+		}
+		
 		Tab.chainLocalSymbols(currentMethod);
 		Tab.closeScope();
 		
@@ -299,6 +319,30 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if(Obj.Meth == proc.getKind()) {
 			report_info("Pronadjen poziv funkcije " + proc.getName() + " na liniji " + procedureCall.getLine(), null);
 			procedureCall.struct = proc.getType();
+			
+			int fpPos = 0;
+			for(Obj o : proc.getLocalSymbols()) {
+				fpPos += o.getFpPos();
+			}
+			
+			if(proc.getName().equals("chr") || proc.getName().equals("ord") || proc.getName().equals("len")) {
+				fpPos++;
+			}
+			
+			if(this.actualParams.get(0).size() != fpPos) {
+				report_error("Greska : broj prosledjenih parametara u pozivu funkcije " + proc.getName() + " se ne slaze sa brojem formalnih parametara ", procedureCall);
+			}
+			int i = 0;
+			for(Obj o : proc.getLocalSymbols()) {
+				if(o.getFpPos() == 0) continue;
+				if(this.actualParams.get(0).get(i++) != o.getType()) {
+					report_error("Greska : prosledjeni parametri funkcije " + this.calledMethodsList.get(0).getName() + " se ne slazu sa formalnim parametrima funkcije ", procedureCall);
+					break;
+				}
+			}
+			
+			this.calledMethodsList.remove(0);
+			this.actualParams.remove(0);
 		}
 		else {
 			report_error("Greska na liniji " + procedureCall.getLine() + " : ime " + proc.getName() + " nije funkcija!", null);
@@ -338,6 +382,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if(obj == Tab.noObj) {
 			report_error("Greska na liniji " + designator.getLine() + " : ime " + designator.getVarName() + " nije deklarisano!", null);
 		}
+		else if (obj.getKind() == Obj.Meth) {
+			this.calledMethodsList.add(0, obj);
+			this.actualParams.add(0, new ArrayList<Struct>());
+		}
 		
 		designator.obj = obj;
 	}
@@ -346,6 +394,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if(desArray.getDesignatorArrayName().obj == Tab.noObj) {
 			desArray.obj = Tab.noObj;
 			return;
+		}
+		else if(desArray.getDesignatorArrayName().obj.getKind() == Obj.Meth) {
+			this.calledMethodsList.add(0, desArray.getDesignatorArrayName().obj);
+			this.actualParams.add(0, new ArrayList<Struct>());
 		}
 		
 		if(desArray.getExpr().struct != Tab.intType) {
@@ -386,6 +438,31 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if(Obj.Meth == func.getKind()) {
 			report_info("Pronadjen poziv funkcije " + func.getName() + " na liniji " + funcCall.getLine(), null);
 			funcCall.struct = func.getType();
+			
+			int fpPos = 0;
+			for(Obj o : func.getLocalSymbols()) {
+				fpPos += o.getFpPos();
+			}
+			
+			if(func.getName().equals("chr") || func.getName().equals("ord") || func.getName().equals("len")) {
+				fpPos++;
+			}
+			
+			if(this.actualParams.get(0).size() != fpPos) {
+				report_error("Greska : broj prosledjenih parametara u pozivu funkcije " + func.getName() + " se ne slaze sa brojem formalnih parametara ", funcCall);
+			}
+			
+			int i = 0;
+			for(Obj o : func.getLocalSymbols()) {
+				if(o.getFpPos() == 0) continue;
+				if(this.actualParams.get(0).get(i++) != o.getType()) {
+					report_error("Greska : prosledjeni parametri funkcije " + this.calledMethodsList.get(0).getName() + " se ne slazu sa formalnim parametrima funkcije ", funcCall);
+					break;
+				}
+			}
+			
+			this.calledMethodsList.remove(0);
+			this.actualParams.remove(0);
 		}
 		else {
 			report_error("Greska na liniji " + funcCall.getLine() + " : ime " + func.getName() + " nije funkcija!", null);
@@ -465,9 +542,40 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	/*==========================================================================================================*/
 	
+	/*========================================= OBILAZAK ActPars ===============================================*/
+	public void visit(SingleParam param) {
+		this.actualParams.get(0).add(param.getExpr().struct);
+	}
+	
+	public void visit(MultipleParam param) {
+		this.actualParams.get(0).add(param.getExpr().struct);
+	}
+	/*==========================================================================================================*/
+	
+	
 	/*========================================== OBILAZAK Expr ==============================================*/
 	public void visit(BasicExpr basicExpr) {
 		basicExpr.struct = basicExpr.getExpr1().struct;
+	}
+	
+	public void visit(SwitchExpretion expr) {
+		if(expr.getExpr().struct != Tab.intType) {
+			report_error("Greska : opcije switch naredbe moraju biti int tipa ", expr);
+		}
+		
+		//da li postoji yield
+		//da li postoji default
+		//da li postoji isti case
+		
+		
+	}
+	
+	public void visit(DefaultStmt stmt) {
+		System.out.println("DEFAULT FOUND");
+	}
+	
+	public void visit(SwitchExpr expr) {
+		this.in_switch = true;
 	}
 	/*==========================================================================================================*/
 	
@@ -491,6 +599,50 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		}
 		else if(!(stmt.getDesignator().obj.getType() == Tab.intType || stmt.getDesignator().obj.getType() == Tab.charType || stmt.getDesignator().obj.getType() == boolType)) {
 			report_error("Greska : parametar read funkcije nije validan tip (int, char, bool)", null);
+		}
+	}
+	
+	public void visit(RetStmt stmt) {
+		this.returnFound = true;
+		if(!currentMethod.getType().compatibleWith(stmt.getExpr().struct)) {
+			report_error("Greska : povratna vrednost metode " + currentMethod.getName() + " se ne poklapa sa tipom u return iskazu ", stmt);
+		}
+	}
+	
+	public void visit(RetNoValStmt stmt) {
+		returnFound = false;
+		if(!currentMethod.getType().compatibleWith(Tab.noType)) {
+			report_error("Greska : metoda " + currentMethod.getName() + " mora da ima povratni parametar ", stmt);
+		}
+	}
+	
+	public void visit(DoStmt stmt) {
+		in_loop = true;
+	}
+	
+	public void visit(ContinueStmt stmt) {
+		if(!in_loop) {
+			report_error("Greska : continue naredba je dozvoljena iskljucivo unutar petlji ", null);
+		}
+	}
+	
+	public void visit(BreakStmt stmt) {
+		if(!in_loop && !in_switch) {
+			report_error("Greska : break naredba je dozvoljena samo unutar petlji i switch naredbe ", null);
+		}
+	}
+	
+	public void visit(DoWhileStmt stmt) {
+		in_loop = false;
+	}
+	
+	public void visit(YieldStmt stmt) {
+		if(!in_switch) {
+			report_error("Greska : yield naredba je dozvoljena samo unutar switch naredbe ", stmt);
+			stmt.struct = Tab.noType;
+		}
+		else {
+			stmt.struct = stmt.getExpr().struct;
 		}
 	}
 	/*==========================================================================================================*/

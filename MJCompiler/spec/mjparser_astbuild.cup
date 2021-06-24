@@ -74,7 +74,8 @@ terminal DEFAULT, YIELD;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement, CondFact, CondTerm, Condition;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList, Statement;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt;
 
 nonterminal ParamDecl ParamDecl;
 nonterminal ConstDecl ConstDecl;
@@ -89,13 +90,13 @@ nonterminal ClassMethods ClassMethods;
 nonterminal OptFormPars OptFormPars;
 nonterminal FormPars FormPars;
 nonterminal FormParamDecl FormParamDecl;
-nonterminal Statement Statement;
 nonterminal ElseStmt ElseStmt;
 nonterminal PrintExpr PrintExpr;
-nonterminal StmtList StmtList;
+nonterminal SwitchExpr SwitchExpr;
+nonterminal DefaultStmt DefaultStmt;
 nonterminal DesignatorAssignment DesignatorAssignment;
-nonterminal CaseStmt CaseStmt;
-nonterminal CaseList CaseList;
+nonterminal StmtList StmtList;
+nonterminal DoStmt DoStmt;
 nonterminal ActPars ActPars;
 nonterminal OptionalMinus OptionalMinus;
 nonterminal ActualPars ActualPars;
@@ -199,7 +200,7 @@ Statement ::= (DesStmt) DesignatorStatement:D1 SEMI {: RESULT=new DesStmt(D1); R
 			|
 			(MatchedIfElse) IF LPAREN Condition:C1 RPAREN Statement:S2 ElseStmt:E3 {: RESULT=new MatchedIfElse(C1, S2, E3); RESULT.setLine(C1left); :}
 			|
-			(DoWhileStmt) DO Statement:S1 WHILE LPAREN Condition:C2 RPAREN SEMI {: RESULT=new DoWhileStmt(S1, C2); RESULT.setLine(S1left); :}
+			(DoWhileStmt) DoStmt:D1 Statement:S2 WHILE LPAREN Condition:C3 RPAREN SEMI {: RESULT=new DoWhileStmt(D1, S2, C3); RESULT.setLine(D1left); :}
 			|
 			(YieldStmt) YIELD Expr:E1 SEMI {: RESULT=new YieldStmt(E1); RESULT.setLine(E1left); :}
 			|
@@ -219,6 +220,8 @@ Statement ::= (DesStmt) DesignatorStatement:D1 SEMI {: RESULT=new DesStmt(D1); R
 			|
 			(BasicStmt) LBRACE StmtList:S1 RBRACE {: RESULT=new BasicStmt(S1); RESULT.setLine(S1left); :}
 			;
+			
+DoStmt ::= (DoStmt) DO {: RESULT=new DoStmt(); :};
 			
 ElseStmt ::= (ElseStatement) ELSE Statement:S1 {: RESULT=new ElseStatement(S1); RESULT.setLine(S1left); :}
 			|
@@ -266,8 +269,10 @@ CondFact ::= (CondExpr) Expr:expr {: RESULT=new CondExpr(expr); RESULT.setLine(e
 
 Expr ::= (BasicExpr) OptionalMinus:O1 Expr1:expr {: RESULT=new BasicExpr(O1, expr); RESULT.setLine(O1left); :}
 		|
-		(SwitchExpretion) SWITCH LPAREN Expr:chooseVal RPAREN LBRACE CaseList:C1 RBRACE {: RESULT=new SwitchExpretion(chooseVal, C1); RESULT.setLine(chooseValleft); :}
+		(SwitchExpretion) SwitchExpr:S1 LPAREN Expr:chooseVal RPAREN LBRACE CaseList:C2 RBRACE {: RESULT=new SwitchExpretion(S1, chooseVal, C2); RESULT.setLine(S1left); :}
 		;
+		
+SwitchExpr ::= (SwitchExpr) SWITCH {: RESULT=new SwitchExpr(); :};
 		
 CaseStmt ::= (CaseStmt) CASE NUMBER:N1 DDOT StmtList:S2 {: RESULT=new CaseStmt(N1, S2); RESULT.setLine(N1left); :};
 
@@ -275,6 +280,8 @@ CaseList ::= (MultiCaseList) CaseList:C1 CaseStmt:C2 {: RESULT=new MultiCaseList
 			|
 			(NoCase) {: RESULT=new NoCase(); :} /* epsilon */
 			;
+			
+DefaultStmt ::= (DefaultStmt) DEFAULT {: RESULT=new DefaultStmt(); :};
 
 Expr1 ::= (AddExpr) Expr1:term Addop:A1 Term:t {: RESULT=new AddExpr(term, A1, t); RESULT.setLine(termleft); :}
 		|

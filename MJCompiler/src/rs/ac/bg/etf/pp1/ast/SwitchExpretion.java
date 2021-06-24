@@ -1,20 +1,31 @@
 // generated with ast extension for cup
 // version 0.8
-// 22/5/2021 23:13:8
+// 24/5/2021 9:35:34
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class SwitchExpretion extends Expr {
 
+    private SwitchExpr SwitchExpr;
     private Expr Expr;
     private CaseList CaseList;
 
-    public SwitchExpretion (Expr Expr, CaseList CaseList) {
+    public SwitchExpretion (SwitchExpr SwitchExpr, Expr Expr, CaseList CaseList) {
+        this.SwitchExpr=SwitchExpr;
+        if(SwitchExpr!=null) SwitchExpr.setParent(this);
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
         this.CaseList=CaseList;
         if(CaseList!=null) CaseList.setParent(this);
+    }
+
+    public SwitchExpr getSwitchExpr() {
+        return SwitchExpr;
+    }
+
+    public void setSwitchExpr(SwitchExpr SwitchExpr) {
+        this.SwitchExpr=SwitchExpr;
     }
 
     public Expr getExpr() {
@@ -38,17 +49,20 @@ public class SwitchExpretion extends Expr {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(SwitchExpr!=null) SwitchExpr.accept(visitor);
         if(Expr!=null) Expr.accept(visitor);
         if(CaseList!=null) CaseList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(SwitchExpr!=null) SwitchExpr.traverseTopDown(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
         if(CaseList!=null) CaseList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(SwitchExpr!=null) SwitchExpr.traverseBottomUp(visitor);
         if(Expr!=null) Expr.traverseBottomUp(visitor);
         if(CaseList!=null) CaseList.traverseBottomUp(visitor);
         accept(visitor);
@@ -58,6 +72,12 @@ public class SwitchExpretion extends Expr {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("SwitchExpretion(\n");
+
+        if(SwitchExpr!=null)
+            buffer.append(SwitchExpr.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
 
         if(Expr!=null)
             buffer.append(Expr.toString("  "+tab));

@@ -74,7 +74,8 @@ terminal DEFAULT, YIELD;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement, CondFact, CondTerm, Condition;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList, Statement;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt;
 
 nonterminal ParamDecl;
 nonterminal ConstDecl, ConstAssign;
@@ -83,9 +84,9 @@ nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
-nonterminal Statement, ElseStmt, PrintExpr, StmtList;
+nonterminal ElseStmt, PrintExpr, SwitchExpr, DefaultStmt;
 nonterminal DesignatorAssignment;
-nonterminal CaseStmt, CaseList;
+nonterminal StmtList, DoStmt;
 nonterminal ActPars, OptionalMinus;
 nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
@@ -185,7 +186,7 @@ Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(MatchedIfElse) IF LPAREN Condition RPAREN Statement ElseStmt
 			|
-			(DoWhileStmt) DO Statement WHILE LPAREN Condition RPAREN SEMI
+			(DoWhileStmt) DoStmt Statement WHILE LPAREN Condition RPAREN SEMI
 			|
 			(YieldStmt) YIELD Expr SEMI
 			|
@@ -205,6 +206,8 @@ Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(BasicStmt) LBRACE StmtList RBRACE
 			;
+			
+DoStmt ::= (DoStmt) DO;
 			
 ElseStmt ::= (ElseStatement) ELSE Statement
 			|
@@ -252,8 +255,10 @@ CondFact ::= (CondExpr) Expr:expr
 
 Expr ::= (BasicExpr) OptionalMinus Expr1:expr
 		|
-		(SwitchExpretion) SWITCH LPAREN Expr:chooseVal RPAREN LBRACE CaseList RBRACE
+		(SwitchExpretion) SwitchExpr LPAREN Expr:chooseVal RPAREN LBRACE CaseList RBRACE
 		;
+		
+SwitchExpr ::= (SwitchExpr) SWITCH;
 		
 CaseStmt ::= (CaseStmt) CASE NUMBER DDOT StmtList;
 
@@ -261,6 +266,8 @@ CaseList ::= (MultiCaseList) CaseList CaseStmt
 			|
 			(NoCase) /* epsilon */
 			;
+			
+DefaultStmt ::= (DefaultStmt) DEFAULT;
 
 Expr1 ::= (AddExpr) Expr1:term Addop Term:t
 		|

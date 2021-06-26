@@ -1,0 +1,264 @@
+INFO  21:40:42,835 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  21:40:42,869 - #6 program
+INFO  21:40:42,869 - #2 test302
+INFO  21:40:42,869 - #2 int
+INFO  21:40:42,870 - #2 i
+INFO  21:40:42,870 - #40 ,
+INFO  21:40:42,871 - #2 j
+INFO  21:40:42,871 - #39 ;
+INFO  21:40:42,871 - #44 {
+INFO  21:40:42,871 - #11 void
+INFO  21:40:42,872 - #2 main
+INFO  21:40:42,872 - #42 (
+INFO  21:40:42,873 - #43 )
+INFO  21:40:42,873 - #44 {
+INFO  21:40:42,874 - #2 i
+INFO  21:40:42,874 - #36 =
+INFO  21:40:42,874 - #3 5
+INFO  21:40:42,876 - #39 ;
+INFO  21:40:42,876 - #2 i
+INFO  21:40:42,876 - #36 =
+INFO  21:40:42,876 - #3 5
+INFO  21:40:42,876 - #25 *
+INFO  21:40:42,877 - #3 2
+INFO  21:40:42,879 - #39 ;
+INFO  21:40:42,879 - #21 print
+INFO  21:40:42,879 - #42 (
+INFO  21:40:42,879 - #2 i
+INFO  21:40:42,879 - #43 )
+INFO  21:40:42,879 - #39 ;
+INFO  21:40:42,879 - #2 i
+INFO  21:40:42,879 - #36 =
+INFO  21:40:42,879 - #2 i
+INFO  21:40:42,879 - #26 /
+INFO  21:40:42,880 - #3 2
+INFO  21:40:42,880 - #39 ;
+INFO  21:40:42,880 - #21 print
+INFO  21:40:42,880 - #42 (
+INFO  21:40:42,880 - #2 i
+INFO  21:40:42,880 - #43 )
+INFO  21:40:42,880 - #39 ;
+INFO  21:40:42,880 - #2 i
+INFO  21:40:42,880 - #36 =
+INFO  21:40:42,880 - #2 i
+INFO  21:40:42,881 - #27 %
+INFO  21:40:42,881 - #3 2
+INFO  21:40:42,881 - #39 ;
+INFO  21:40:42,881 - #21 print
+INFO  21:40:42,881 - #42 (
+INFO  21:40:42,881 - #2 i
+INFO  21:40:42,881 - #43 )
+INFO  21:40:42,882 - #39 ;
+INFO  21:40:42,882 - #45 }
+INFO  21:40:42,882 - #45 }
+INFO  21:40:42,900 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    ParamDeclDerived1(
+    ) [ParamDeclDerived1]
+    VarDeclaration(
+      Type(
+       int
+      ) [Type]
+     i
+      VarDeclMore(
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+       j
+      ) [VarDeclMore]
+    ) [VarDeclaration]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        MultiStmtList(
+          MultiStmtList(
+            MultiStmtList(
+              MultiStmtList(
+                MultiStmtList(
+                  MultiStmtList(
+                    NoStmt(
+                    ) [NoStmt]
+                    DesStmt(
+                      DesAssign(
+                        DesBasic(
+                         i
+                        ) [DesBasic]
+                        AssignOperator(
+                        ) [AssignOperator]
+                        BasicExpr(
+                          NoMinus(
+                          ) [NoMinus]
+                          TermExpr(
+                            FactorTerm(
+                              NumConst(
+                               5
+                              ) [NumConst]
+                            ) [FactorTerm]
+                          ) [TermExpr]
+                        ) [BasicExpr]
+                      ) [DesAssign]
+                    ) [DesStmt]
+                  ) [MultiStmtList]
+                  DesStmt(
+                    DesAssign(
+                      DesBasic(
+                       i
+                      ) [DesBasic]
+                      AssignOperator(
+                      ) [AssignOperator]
+                      BasicExpr(
+                        NoMinus(
+                        ) [NoMinus]
+                        TermExpr(
+                          MulopTerm(
+                            FactorTerm(
+                              NumConst(
+                               5
+                              ) [NumConst]
+                            ) [FactorTerm]
+                            MulOperator(
+                            ) [MulOperator]
+                            NumConst(
+                             2
+                            ) [NumConst]
+                          ) [MulopTerm]
+                        ) [TermExpr]
+                      ) [BasicExpr]
+                    ) [DesAssign]
+                  ) [DesStmt]
+                ) [MultiStmtList]
+                PrintStmt(
+                  BasicExpr(
+                    NoMinus(
+                    ) [NoMinus]
+                    TermExpr(
+                      FactorTerm(
+                        Var(
+                          DesBasic(
+                           i
+                          ) [DesBasic]
+                        ) [Var]
+                      ) [FactorTerm]
+                    ) [TermExpr]
+                  ) [BasicExpr]
+                ) [PrintStmt]
+              ) [MultiStmtList]
+              DesStmt(
+                DesAssign(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                  AssignOperator(
+                  ) [AssignOperator]
+                  BasicExpr(
+                    NoMinus(
+                    ) [NoMinus]
+                    TermExpr(
+                      MulopTerm(
+                        FactorTerm(
+                          Var(
+                            DesBasic(
+                             i
+                            ) [DesBasic]
+                          ) [Var]
+                        ) [FactorTerm]
+                        DivOperator(
+                        ) [DivOperator]
+                        NumConst(
+                         2
+                        ) [NumConst]
+                      ) [MulopTerm]
+                    ) [TermExpr]
+                  ) [BasicExpr]
+                ) [DesAssign]
+              ) [DesStmt]
+            ) [MultiStmtList]
+            PrintStmt(
+              BasicExpr(
+                NoMinus(
+                ) [NoMinus]
+                TermExpr(
+                  FactorTerm(
+                    Var(
+                      DesBasic(
+                       i
+                      ) [DesBasic]
+                    ) [Var]
+                  ) [FactorTerm]
+                ) [TermExpr]
+              ) [BasicExpr]
+            ) [PrintStmt]
+          ) [MultiStmtList]
+          DesStmt(
+            DesAssign(
+              DesBasic(
+               i
+              ) [DesBasic]
+              AssignOperator(
+              ) [AssignOperator]
+              BasicExpr(
+                NoMinus(
+                ) [NoMinus]
+                TermExpr(
+                  MulopTerm(
+                    FactorTerm(
+                      Var(
+                        DesBasic(
+                         i
+                        ) [DesBasic]
+                      ) [Var]
+                    ) [FactorTerm]
+                    ModOperator(
+                    ) [ModOperator]
+                    NumConst(
+                     2
+                    ) [NumConst]
+                  ) [MulopTerm]
+                ) [TermExpr]
+              ) [BasicExpr]
+            ) [DesAssign]
+          ) [DesStmt]
+        ) [MultiStmtList]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                Var(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                ) [Var]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  21:40:42,900 - ===================================
+INFO  21:40:42,904 - Deklarisana je promenljiva j na liniji 4
+INFO  21:40:42,904 - Deklarisana je promenljiva i na liniji 4
+INFO  21:40:42,904 - Obradjuje se funkcija main na liniji 7
+INFO  21:40:42,904 - Promenljivoj se dodeljuje vrednost  na liniji 9
+INFO  21:40:42,904 - Promenljivoj se dodeljuje vrednost  na liniji 10
+INFO  21:40:42,904 - Promenljivoj se dodeljuje vrednost  na liniji 12
+INFO  21:40:42,904 - Promenljivoj se dodeljuje vrednost  na liniji 14
+INFO  21:40:42,905 - ===================================
+INFO  21:40:42,907 - Parsiranje uspesno zavrseno!

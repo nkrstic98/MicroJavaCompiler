@@ -1,0 +1,80 @@
+INFO  21:14:47,814 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  21:14:47,853 - #6 program
+INFO  21:14:47,853 - #2 test302
+INFO  21:14:47,853 - #2 int
+INFO  21:14:47,854 - #2 i
+INFO  21:14:47,855 - #39 ;
+INFO  21:14:47,855 - #44 {
+INFO  21:14:47,855 - #11 void
+INFO  21:14:47,856 - #2 main
+INFO  21:14:47,856 - #42 (
+INFO  21:14:47,857 - #43 )
+INFO  21:14:47,857 - #44 {
+INFO  21:14:47,858 - #2 i
+INFO  21:14:47,858 - #36 =
+INFO  21:14:47,858 - #3 5
+INFO  21:14:47,860 - #39 ;
+INFO  21:14:47,860 - #45 }
+INFO  21:14:47,860 - #45 }
+INFO  21:14:47,879 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    ParamDeclDerived1(
+    ) [ParamDeclDerived1]
+    VarDeclaration(
+      Type(
+       int
+      ) [Type]
+     i
+      NoVarDeclMore(
+      ) [NoVarDeclMore]
+    ) [VarDeclaration]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        NoStmt(
+        ) [NoStmt]
+        DesStmt(
+          DesAssign(
+            DesBasic(
+             i
+            ) [DesBasic]
+            AssignOperator(
+            ) [AssignOperator]
+            BasicExpr(
+              NoMinus(
+              ) [NoMinus]
+              TermExpr(
+                FactorTerm(
+                  NumConst(
+                   5
+                  ) [NumConst]
+                ) [FactorTerm]
+              ) [TermExpr]
+            ) [BasicExpr]
+          ) [DesAssign]
+        ) [DesStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  21:14:47,880 - ===================================
+INFO  21:14:47,886 - Deklarisana je promenljiva i na liniji 4
+INFO  21:14:47,886 - Obradjuje se funkcija main na liniji 7
+INFO  21:14:47,886 - Promenljivoj se dodeljuje vrednost  na liniji 9
+INFO  21:14:47,886 - ===================================
+INFO  21:14:47,889 - Parsiranje uspesno zavrseno!

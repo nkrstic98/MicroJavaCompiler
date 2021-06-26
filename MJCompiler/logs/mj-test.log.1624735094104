@@ -1,0 +1,142 @@
+INFO  21:17:41,632 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  21:17:41,666 - #6 program
+INFO  21:17:41,666 - #2 test302
+INFO  21:17:41,666 - #2 int
+INFO  21:17:41,666 - #2 i
+INFO  21:17:41,666 - #40 ,
+INFO  21:17:41,668 - #2 j
+INFO  21:17:41,668 - #39 ;
+INFO  21:17:41,668 - #44 {
+INFO  21:17:41,668 - #11 void
+INFO  21:17:41,668 - #2 main
+INFO  21:17:41,668 - #42 (
+INFO  21:17:41,669 - #43 )
+INFO  21:17:41,669 - #44 {
+INFO  21:17:41,670 - #2 i
+INFO  21:17:41,671 - #36 =
+INFO  21:17:41,671 - #3 5
+INFO  21:17:41,673 - #39 ;
+INFO  21:17:41,673 - #21 print
+INFO  21:17:41,673 - #42 (
+INFO  21:17:41,673 - #2 i
+INFO  21:17:41,673 - #43 )
+INFO  21:17:41,673 - #39 ;
+INFO  21:17:41,676 - #22 read
+INFO  21:17:41,676 - #42 (
+INFO  21:17:41,676 - #2 j
+INFO  21:17:41,676 - #43 )
+INFO  21:17:41,676 - #39 ;
+INFO  21:17:41,676 - #21 print
+INFO  21:17:41,676 - #42 (
+INFO  21:17:41,676 - #2 j
+INFO  21:17:41,676 - #43 )
+INFO  21:17:41,676 - #39 ;
+INFO  21:17:41,676 - #45 }
+INFO  21:17:41,676 - #45 }
+INFO  21:17:41,693 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    ParamDeclDerived1(
+    ) [ParamDeclDerived1]
+    VarDeclaration(
+      Type(
+       int
+      ) [Type]
+     i
+      VarDeclMore(
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+       j
+      ) [VarDeclMore]
+    ) [VarDeclaration]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        MultiStmtList(
+          MultiStmtList(
+            MultiStmtList(
+              NoStmt(
+              ) [NoStmt]
+              DesStmt(
+                DesAssign(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                  AssignOperator(
+                  ) [AssignOperator]
+                  BasicExpr(
+                    NoMinus(
+                    ) [NoMinus]
+                    TermExpr(
+                      FactorTerm(
+                        NumConst(
+                         5
+                        ) [NumConst]
+                      ) [FactorTerm]
+                    ) [TermExpr]
+                  ) [BasicExpr]
+                ) [DesAssign]
+              ) [DesStmt]
+            ) [MultiStmtList]
+            PrintStmt(
+              BasicExpr(
+                NoMinus(
+                ) [NoMinus]
+                TermExpr(
+                  FactorTerm(
+                    Var(
+                      DesBasic(
+                       i
+                      ) [DesBasic]
+                    ) [Var]
+                  ) [FactorTerm]
+                ) [TermExpr]
+              ) [BasicExpr]
+            ) [PrintStmt]
+          ) [MultiStmtList]
+          ReadStmt(
+            DesBasic(
+             j
+            ) [DesBasic]
+          ) [ReadStmt]
+        ) [MultiStmtList]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                Var(
+                  DesBasic(
+                   j
+                  ) [DesBasic]
+                ) [Var]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  21:17:41,694 - ===================================
+INFO  21:17:41,697 - Deklarisana je promenljiva j na liniji 4
+INFO  21:17:41,697 - Deklarisana je promenljiva i na liniji 4
+INFO  21:17:41,697 - Obradjuje se funkcija main na liniji 7
+INFO  21:17:41,697 - Promenljivoj se dodeljuje vrednost  na liniji 9
+INFO  21:17:41,697 - ===================================
+INFO  21:17:41,699 - Parsiranje uspesno zavrseno!

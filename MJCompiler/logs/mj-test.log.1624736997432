@@ -1,0 +1,159 @@
+INFO  21:48:50,135 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  21:48:50,169 - #6 program
+INFO  21:48:50,169 - #2 test302
+INFO  21:48:50,169 - #2 int
+INFO  21:48:50,170 - #2 i
+INFO  21:48:50,170 - #40 ,
+INFO  21:48:50,171 - #2 j
+INFO  21:48:50,171 - #39 ;
+INFO  21:48:50,171 - #2 char
+INFO  21:48:50,171 - #2 niz
+INFO  21:48:50,171 - #46 [
+INFO  21:48:50,171 - #47 ]
+INFO  21:48:50,171 - #39 ;
+INFO  21:48:50,172 - #44 {
+INFO  21:48:50,172 - #11 void
+INFO  21:48:50,172 - #2 main
+INFO  21:48:50,173 - #42 (
+INFO  21:48:50,173 - #43 )
+INFO  21:48:50,174 - #44 {
+INFO  21:48:50,174 - #2 i
+INFO  21:48:50,175 - #36 =
+INFO  21:48:50,175 - #3 5
+INFO  21:48:50,176 - #39 ;
+INFO  21:48:50,178 - #21 print
+INFO  21:48:50,179 - #42 (
+INFO  21:48:50,179 - #2 i
+INFO  21:48:50,179 - #43 )
+INFO  21:48:50,179 - #39 ;
+INFO  21:48:50,179 - #2 i
+INFO  21:48:50,179 - #37 ++
+INFO  21:48:50,179 - #39 ;
+INFO  21:48:50,179 - #21 print
+INFO  21:48:50,179 - #42 (
+INFO  21:48:50,179 - #2 i
+INFO  21:48:50,179 - #43 )
+INFO  21:48:50,179 - #39 ;
+INFO  21:48:50,180 - #45 }
+INFO  21:48:50,180 - #45 }
+INFO  21:48:50,197 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    VarParam(
+      ParamDeclDerived1(
+      ) [ParamDeclDerived1]
+      VarDeclaration(
+        Type(
+         int
+        ) [Type]
+       i
+        VarDeclMore(
+          NoVarDeclMore(
+          ) [NoVarDeclMore]
+         j
+        ) [VarDeclMore]
+      ) [VarDeclaration]
+    ) [VarParam]
+    VarDeclarationArray(
+      Type(
+       char
+      ) [Type]
+     niz
+      NoVarDeclMore(
+      ) [NoVarDeclMore]
+    ) [VarDeclarationArray]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        MultiStmtList(
+          MultiStmtList(
+            MultiStmtList(
+              NoStmt(
+              ) [NoStmt]
+              DesStmt(
+                DesAssign(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                  AssignOperator(
+                  ) [AssignOperator]
+                  BasicExpr(
+                    NoMinus(
+                    ) [NoMinus]
+                    TermExpr(
+                      FactorTerm(
+                        NumConst(
+                         5
+                        ) [NumConst]
+                      ) [FactorTerm]
+                    ) [TermExpr]
+                  ) [BasicExpr]
+                ) [DesAssign]
+              ) [DesStmt]
+            ) [MultiStmtList]
+            PrintStmt(
+              BasicExpr(
+                NoMinus(
+                ) [NoMinus]
+                TermExpr(
+                  FactorTerm(
+                    Var(
+                      DesBasic(
+                       i
+                      ) [DesBasic]
+                    ) [Var]
+                  ) [FactorTerm]
+                ) [TermExpr]
+              ) [BasicExpr]
+            ) [PrintStmt]
+          ) [MultiStmtList]
+          DesStmt(
+            VarInc(
+              DesBasic(
+               i
+              ) [DesBasic]
+            ) [VarInc]
+          ) [DesStmt]
+        ) [MultiStmtList]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                Var(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                ) [Var]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  21:48:50,197 - ===================================
+INFO  21:48:50,200 - Deklarisana je promenljiva j na liniji 4
+INFO  21:48:50,200 - Deklarisana je promenljiva i na liniji 4
+INFO  21:48:50,200 - Deklarisana je promenljiva niz na liniji 5
+INFO  21:48:50,201 - Obradjuje se funkcija main na liniji 8
+INFO  21:48:50,201 - Promenljivoj se dodeljuje vrednost  na liniji 10
+INFO  21:48:50,201 - Promenljiva i je inkrementirana  na liniji 12
+INFO  21:48:50,201 - ===================================
+INFO  21:48:50,204 - Parsiranje uspesno zavrseno!

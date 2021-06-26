@@ -1,0 +1,153 @@
+INFO  21:04:49,689 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  21:04:49,722 - #6 program
+INFO  21:04:49,722 - #2 test302
+INFO  21:04:49,722 - #10 const
+INFO  21:04:49,723 - #2 int
+INFO  21:04:49,723 - #2 jedan
+INFO  21:04:49,723 - #36 =
+INFO  21:04:49,724 - #3 1
+INFO  21:04:49,724 - #39 ;
+INFO  21:04:49,724 - #2 int
+INFO  21:04:49,724 - #2 i
+INFO  21:04:49,724 - #40 ,
+INFO  21:04:49,725 - #2 j
+INFO  21:04:49,725 - #39 ;
+INFO  21:04:49,725 - #44 {
+INFO  21:04:49,725 - #11 void
+INFO  21:04:49,726 - #2 main
+INFO  21:04:49,726 - #42 (
+INFO  21:04:49,727 - #43 )
+INFO  21:04:49,727 - #44 {
+INFO  21:04:49,728 - #2 i
+INFO  21:04:49,728 - #36 =
+INFO  21:04:49,729 - #3 5
+INFO  21:04:49,732 - #39 ;
+INFO  21:04:49,732 - #2 j
+INFO  21:04:49,732 - #36 =
+INFO  21:04:49,733 - #3 6
+INFO  21:04:49,733 - #39 ;
+INFO  21:04:49,733 - #21 print
+INFO  21:04:49,733 - #42 (
+INFO  21:04:49,733 - #2 i
+INFO  21:04:49,733 - #43 )
+INFO  21:04:49,733 - #39 ;
+INFO  21:04:49,733 - #45 }
+INFO  21:04:49,733 - #45 }
+INFO  21:04:49,744 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    ConstParam(
+      ParamDeclDerived1(
+      ) [ParamDeclDerived1]
+      ConstDecl(
+        Type(
+         int
+        ) [Type]
+        SingleNumberConst(
+         jedan
+         1
+        ) [SingleNumberConst]
+      ) [ConstDecl]
+    ) [ConstParam]
+    VarDeclaration(
+      Type(
+       int
+      ) [Type]
+     i
+      VarDeclMore(
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+       j
+      ) [VarDeclMore]
+    ) [VarDeclaration]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        MultiStmtList(
+          MultiStmtList(
+            NoStmt(
+            ) [NoStmt]
+            DesStmt(
+              DesAssign(
+                DesBasic(
+                 i
+                ) [DesBasic]
+                AssignOperator(
+                ) [AssignOperator]
+                BasicExpr(
+                  NoMinus(
+                  ) [NoMinus]
+                  TermExpr(
+                    FactorTerm(
+                      NumConst(
+                       5
+                      ) [NumConst]
+                    ) [FactorTerm]
+                  ) [TermExpr]
+                ) [BasicExpr]
+              ) [DesAssign]
+            ) [DesStmt]
+          ) [MultiStmtList]
+          DesStmt(
+            DesAssign(
+              DesBasic(
+               j
+              ) [DesBasic]
+              AssignOperator(
+              ) [AssignOperator]
+              BasicExpr(
+                NoMinus(
+                ) [NoMinus]
+                TermExpr(
+                  FactorTerm(
+                    NumConst(
+                     6
+                    ) [NumConst]
+                  ) [FactorTerm]
+                ) [TermExpr]
+              ) [BasicExpr]
+            ) [DesAssign]
+          ) [DesStmt]
+        ) [MultiStmtList]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                Var(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                ) [Var]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  21:04:49,745 - ===================================
+INFO  21:04:49,750 - Deklarisana je nova konstanta jedan na liniji 5
+INFO  21:04:49,750 - Deklarisana je promenljiva j na liniji 7
+INFO  21:04:49,750 - Deklarisana je promenljiva i na liniji 7
+INFO  21:04:49,750 - Obradjuje se funkcija main na liniji 11
+INFO  21:04:49,751 - Promenljivoj se dodeljuje vrednost  na liniji 13
+INFO  21:04:49,751 - Promenljivoj se dodeljuje vrednost  na liniji 14
+INFO  21:04:49,751 - ===================================
+INFO  21:04:49,754 - Parsiranje uspesno zavrseno!

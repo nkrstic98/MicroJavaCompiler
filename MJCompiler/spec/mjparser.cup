@@ -69,7 +69,7 @@ terminal LPAREN, RPAREN;
 terminal LBRACE, RBRACE;
 terminal LSQUARE, RSQUARE;
 terminal QUESTION, DDOT;
-terminal DEFAULT, YIELD;
+terminal DEFAULT, YIELD, GOTO;
 
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
@@ -84,12 +84,13 @@ nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
-nonterminal ElseStmt, PrintExpr, SwitchExpr, DefaultStmt;
+nonterminal ElseStmt, PrintExpr, SwitchExpr, DefaultStmt, YieldStatement, CaseStatements;
 nonterminal DesignatorAssignment;
-nonterminal StmtList, DoStmt;
+nonterminal DoStmt, StmtList;
 nonterminal ActPars, OptionalMinus;
 nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
+nonterminal Label;
 
 precedence left ELSE;
 
@@ -188,7 +189,7 @@ Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(DoWhileStmt) DoStmt Statement WHILE LPAREN Condition RPAREN SEMI
 			|
-			(YieldStmt) YIELD Expr SEMI
+			(YieldStmt) YieldStatement Expr SEMI
 			|
 			(BreakStmt) BREAK SEMI
 			|
@@ -202,10 +203,14 @@ Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
 			(PrintStmt) PRINT LPAREN Expr RPAREN SEMI
 			|
-			(PrintStmtwithNumber) PRINT LPAREN Expr COMMA NUMBER RPAREN
+			(PrintStmtwithNumber) PRINT LPAREN Expr COMMA NUMBER RPAREN SEMI
 			|
 			(BasicStmt) LBRACE StmtList RBRACE
+			|
+			(GotoStmt) GOTO IDENT:labelname SEMI
 			;
+			
+YieldStatement ::= (YieldStatement) YIELD;
 			
 DoStmt ::= (DoStmt) DO;
 			
@@ -216,8 +221,12 @@ ElseStmt ::= (ElseStatement) ELSE Statement
 			
 StmtList ::= (MultiStmtList) StmtList Statement
 			|
+			(MultiStmtListLabel) StmtList Label Statement
+			|
 			(NoStmt) /* epsilon */
 			;
+			
+Label ::= (Label) IDENT:labelname DDOT;
 
 DesignatorStatement ::= (DesAssign) Designator:varName Assignop Expr:val
 						|
@@ -226,8 +235,10 @@ DesignatorStatement ::= (DesAssign) Designator:varName Assignop Expr:val
 						(VarInc) Designator:varName INC
 						|
 						(VarDec) Designator:varName DEC
-						;
-
+						|
+						error SEMI:l
+		   				{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :}
+						;						
 
 ActPars ::= (MultipleParam) ActPars COMMA Expr:paramName
 			|
@@ -255,7 +266,7 @@ CondFact ::= (CondExpr) Expr:expr
 
 Expr ::= (BasicExpr) OptionalMinus Expr1:expr
 		|
-		(SwitchExpretion) SwitchExpr LPAREN Expr:chooseVal RPAREN LBRACE CaseList RBRACE
+		(SwitchExpretion) SwitchExpr LPAREN Expr:chooseVal RPAREN LBRACE CaseStatements RBRACE
 		;
 		
 SwitchExpr ::= (SwitchExpr) SWITCH;
@@ -266,6 +277,8 @@ CaseList ::= (MultiCaseList) CaseList CaseStmt
 			|
 			(NoCase) /* epsilon */
 			;
+			
+CaseStatements ::= (CaseStatements) CaseList DefaultStmt DDOT StmtList;
 			
 DefaultStmt ::= (DefaultStmt) DEFAULT;
 

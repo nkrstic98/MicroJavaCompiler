@@ -32,6 +32,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	boolean in_switch = false;
 	/*============================================*/
 	
+	/*============== Uslovi za switch ============*/
+	boolean default_found = false;
+	boolean yield_found = false;
+	List<Integer> caseValues = new ArrayList<Integer>();
+	Struct switch_ret_val;
+	/*============================================*/
+	
 	/*=========== Pozivanje metoda ===============*/
 	List<Obj> calledMethodsList = new ArrayList<Obj>();
 	List<List<Struct>> actualParams = new ArrayList<List<Struct>>();
@@ -40,6 +47,18 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	public SemanticAnalyzer() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
+		
+		for (Obj o : Tab.find("chr").getLocalSymbols()) {
+			o.setFpPos(1);
+		}
+		
+		for (Obj o : Tab.find("ord").getLocalSymbols()) {
+			o.setFpPos(1);
+		}
+		
+		for (Obj o : Tab.find("len").getLocalSymbols()) {
+			o.setFpPos(1);
+		}
 	}
 
 	public void report_error(String message, SyntaxNode info) {
@@ -313,7 +332,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			report_info("Promenljivoj se dodeljuje vrednost ", assign);
 		}
 	}
-	
+
 	public void visit(ProcedureCall procedureCall) {
 		Obj proc = procedureCall.getDesignator().obj;
 		if(Obj.Meth == proc.getKind()) {
@@ -325,9 +344,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				fpPos += o.getFpPos();
 			}
 			
-			if(proc.getName().equals("chr") || proc.getName().equals("ord") || proc.getName().equals("len")) {
-				fpPos++;
-			}
+//			if(proc.getName().equals("chr") || proc.getName().equals("ord") || proc.getName().equals("len")) {
+//				fpPos++;
+//			}
 			
 			if(this.actualParams.get(0).size() != fpPos) {
 				report_error("Greska : broj prosledjenih parametara u pozivu funkcije " + proc.getName() + " se ne slaze sa brojem formalnih parametara ", procedureCall);
@@ -444,9 +463,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				fpPos += o.getFpPos();
 			}
 			
-			if(func.getName().equals("chr") || func.getName().equals("ord") || func.getName().equals("len")) {
-				fpPos++;
-			}
+//			if(func.getName().equals("chr") || func.getName().equals("ord") || func.getName().equals("len")) {
+//				fpPos++;
+//			}
 			
 			if(this.actualParams.get(0).size() != fpPos) {
 				report_error("Greska : broj prosledjenih parametara u pozivu funkcije " + func.getName() + " se ne slaze sa brojem formalnih parametara ", funcCall);
@@ -561,21 +580,42 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(SwitchExpretion expr) {
 		if(expr.getExpr().struct != Tab.intType) {
 			report_error("Greska : opcije switch naredbe moraju biti int tipa ", expr);
+			expr.struct = Tab.noType;
+		}
+		else {
+			expr.struct = this.switch_ret_val;
 		}
 		
-		//da li postoji yield
-		//da li postoji default
-		//da li postoji isti case
+		if(!default_found) {
+			report_error("Greska: nije pronadjena default labela u switch naredbi ", expr);
+		}
 		
+		if(!yield_found) {
+			report_error("Greska: ne postoji yield naredba u default labeli u switch-u ", expr);
+		}
 		
+		default_found = false;
+		yield_found = false;
+		in_switch = false;
+		caseValues.clear();
 	}
 	
 	public void visit(DefaultStmt stmt) {
-		System.out.println("DEFAULT FOUND");
+		default_found = true;
 	}
 	
 	public void visit(SwitchExpr expr) {
 		this.in_switch = true;
+		this.caseValues.clear();
+	}
+	
+	public void visit(CaseStmt caseStmt) {
+		if(this.caseValues.contains(caseStmt.getN1())) {
+			report_error("Greska: pronadjeno vise case-ova sa istom vrednoscu " + caseStmt.getN1() + " ", caseStmt);
+		}
+		else {
+			this.caseValues.add(caseStmt.getN1());
+		}
 	}
 	/*==========================================================================================================*/
 	
@@ -627,13 +667,19 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	
 	public void visit(BreakStmt stmt) {
-		if(!in_loop && !in_switch) {
-			report_error("Greska : break naredba je dozvoljena samo unutar petlji i switch naredbe ", null);
+		if(!in_loop) {
+			report_error("Greska : break naredba je dozvoljena samo unutar petlji  ", null);
 		}
 	}
 	
 	public void visit(DoWhileStmt stmt) {
 		in_loop = false;
+	}
+	
+	public void visit(YieldStatement stmt) {
+		if(default_found) {
+			yield_found = true;
+		}
 	}
 	
 	public void visit(YieldStmt stmt) {
@@ -644,6 +690,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			stmt.struct = stmt.getExpr().struct;
 		}
+		
+		switch_ret_val = stmt.struct;
 	}
 	/*==========================================================================================================*/
 	

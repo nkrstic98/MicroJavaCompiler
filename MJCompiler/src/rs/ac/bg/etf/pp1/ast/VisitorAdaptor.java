@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 24/5/2021 9:35:34
+// 26/5/2021 20:36:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -74,6 +74,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(TermExpr TermExpr) { visit(); }
     public void visit(AddExpr AddExpr) { visit(); }
     public void visit(DefaultStmt DefaultStmt) { visit(); }
+    public void visit(CaseStatements CaseStatements) { visit(); }
     public void visit(NoCase NoCase) { visit(); }
     public void visit(MultiCaseList MultiCaseList) { visit(); }
     public void visit(CaseStmt CaseStmt) { visit(); }
@@ -90,15 +91,20 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Condition Condition) { visit(); }
     public void visit(SingleParam SingleParam) { visit(); }
     public void visit(MultipleParam MultipleParam) { visit(); }
+    public void visit(DesignatorStatementDerived1 DesignatorStatementDerived1) { visit(); }
     public void visit(VarDec VarDec) { visit(); }
     public void visit(VarInc VarInc) { visit(); }
     public void visit(ProcedureCall ProcedureCall) { visit(); }
     public void visit(DesAssign DesAssign) { visit(); }
+    public void visit(Label Label) { visit(); }
     public void visit(NoStmt NoStmt) { visit(); }
+    public void visit(MultiStmtListLabel MultiStmtListLabel) { visit(); }
     public void visit(MultiStmtList MultiStmtList) { visit(); }
     public void visit(NoElseStatement NoElseStatement) { visit(); }
     public void visit(ElseStatement ElseStatement) { visit(); }
     public void visit(DoStmt DoStmt) { visit(); }
+    public void visit(YieldStatement YieldStatement) { visit(); }
+    public void visit(GotoStmt GotoStmt) { visit(); }
     public void visit(BasicStmt BasicStmt) { visit(); }
     public void visit(PrintStmtwithNumber PrintStmtwithNumber) { visit(); }
     public void visit(PrintStmt PrintStmt) { visit(); }

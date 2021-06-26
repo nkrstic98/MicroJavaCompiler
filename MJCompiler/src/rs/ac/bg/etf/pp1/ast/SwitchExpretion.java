@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 24/5/2021 9:35:34
+// 26/5/2021 20:36:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,15 +9,15 @@ public class SwitchExpretion extends Expr {
 
     private SwitchExpr SwitchExpr;
     private Expr Expr;
-    private CaseList CaseList;
+    private CaseStatements CaseStatements;
 
-    public SwitchExpretion (SwitchExpr SwitchExpr, Expr Expr, CaseList CaseList) {
+    public SwitchExpretion (SwitchExpr SwitchExpr, Expr Expr, CaseStatements CaseStatements) {
         this.SwitchExpr=SwitchExpr;
         if(SwitchExpr!=null) SwitchExpr.setParent(this);
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-        this.CaseList=CaseList;
-        if(CaseList!=null) CaseList.setParent(this);
+        this.CaseStatements=CaseStatements;
+        if(CaseStatements!=null) CaseStatements.setParent(this);
     }
 
     public SwitchExpr getSwitchExpr() {
@@ -36,12 +36,12 @@ public class SwitchExpretion extends Expr {
         this.Expr=Expr;
     }
 
-    public CaseList getCaseList() {
-        return CaseList;
+    public CaseStatements getCaseStatements() {
+        return CaseStatements;
     }
 
-    public void setCaseList(CaseList CaseList) {
-        this.CaseList=CaseList;
+    public void setCaseStatements(CaseStatements CaseStatements) {
+        this.CaseStatements=CaseStatements;
     }
 
     public void accept(Visitor visitor) {
@@ -51,20 +51,20 @@ public class SwitchExpretion extends Expr {
     public void childrenAccept(Visitor visitor) {
         if(SwitchExpr!=null) SwitchExpr.accept(visitor);
         if(Expr!=null) Expr.accept(visitor);
-        if(CaseList!=null) CaseList.accept(visitor);
+        if(CaseStatements!=null) CaseStatements.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(SwitchExpr!=null) SwitchExpr.traverseTopDown(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
-        if(CaseList!=null) CaseList.traverseTopDown(visitor);
+        if(CaseStatements!=null) CaseStatements.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(SwitchExpr!=null) SwitchExpr.traverseBottomUp(visitor);
         if(Expr!=null) Expr.traverseBottomUp(visitor);
-        if(CaseList!=null) CaseList.traverseBottomUp(visitor);
+        if(CaseStatements!=null) CaseStatements.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -85,8 +85,8 @@ public class SwitchExpretion extends Expr {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(CaseList!=null)
-            buffer.append(CaseList.toString("  "+tab));
+        if(CaseStatements!=null)
+            buffer.append(CaseStatements.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

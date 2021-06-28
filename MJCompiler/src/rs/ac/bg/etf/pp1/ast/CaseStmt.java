@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 26/5/2021 21:14:37
+// 28/5/2021 19:53:0
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -11,21 +11,22 @@ public class CaseStmt implements SyntaxNode {
     private int line;
     public rs.etf.pp1.symboltable.concepts.Struct struct = null;
 
-    private Integer N1;
+    private CaseCase CaseCase;
     private StmtList StmtList;
 
-    public CaseStmt (Integer N1, StmtList StmtList) {
-        this.N1=N1;
+    public CaseStmt (CaseCase CaseCase, StmtList StmtList) {
+        this.CaseCase=CaseCase;
+        if(CaseCase!=null) CaseCase.setParent(this);
         this.StmtList=StmtList;
         if(StmtList!=null) StmtList.setParent(this);
     }
 
-    public Integer getN1() {
-        return N1;
+    public CaseCase getCaseCase() {
+        return CaseCase;
     }
 
-    public void setN1(Integer N1) {
-        this.N1=N1;
+    public void setCaseCase(CaseCase CaseCase) {
+        this.CaseCase=CaseCase;
     }
 
     public StmtList getStmtList() {
@@ -57,15 +58,18 @@ public class CaseStmt implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(CaseCase!=null) CaseCase.accept(visitor);
         if(StmtList!=null) StmtList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(CaseCase!=null) CaseCase.traverseTopDown(visitor);
         if(StmtList!=null) StmtList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(CaseCase!=null) CaseCase.traverseBottomUp(visitor);
         if(StmtList!=null) StmtList.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -75,7 +79,10 @@ public class CaseStmt implements SyntaxNode {
         buffer.append(tab);
         buffer.append("CaseStmt(\n");
 
-        buffer.append(" "+tab+N1);
+        if(CaseCase!=null)
+            buffer.append(CaseCase.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
         buffer.append("\n");
 
         if(StmtList!=null)

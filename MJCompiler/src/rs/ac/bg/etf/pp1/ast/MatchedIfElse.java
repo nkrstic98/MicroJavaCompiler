@@ -1,23 +1,34 @@
 // generated with ast extension for cup
 // version 0.8
-// 26/5/2021 21:14:37
+// 28/5/2021 19:53:0
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class MatchedIfElse extends Statement {
 
+    private IfStmt IfStmt;
     private Condition Condition;
     private Statement Statement;
     private ElseStmt ElseStmt;
 
-    public MatchedIfElse (Condition Condition, Statement Statement, ElseStmt ElseStmt) {
+    public MatchedIfElse (IfStmt IfStmt, Condition Condition, Statement Statement, ElseStmt ElseStmt) {
+        this.IfStmt=IfStmt;
+        if(IfStmt!=null) IfStmt.setParent(this);
         this.Condition=Condition;
         if(Condition!=null) Condition.setParent(this);
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
         this.ElseStmt=ElseStmt;
         if(ElseStmt!=null) ElseStmt.setParent(this);
+    }
+
+    public IfStmt getIfStmt() {
+        return IfStmt;
+    }
+
+    public void setIfStmt(IfStmt IfStmt) {
+        this.IfStmt=IfStmt;
     }
 
     public Condition getCondition() {
@@ -49,6 +60,7 @@ public class MatchedIfElse extends Statement {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(IfStmt!=null) IfStmt.accept(visitor);
         if(Condition!=null) Condition.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
         if(ElseStmt!=null) ElseStmt.accept(visitor);
@@ -56,12 +68,14 @@ public class MatchedIfElse extends Statement {
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(IfStmt!=null) IfStmt.traverseTopDown(visitor);
         if(Condition!=null) Condition.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
         if(ElseStmt!=null) ElseStmt.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(IfStmt!=null) IfStmt.traverseBottomUp(visitor);
         if(Condition!=null) Condition.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
         if(ElseStmt!=null) ElseStmt.traverseBottomUp(visitor);
@@ -72,6 +86,12 @@ public class MatchedIfElse extends Statement {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("MatchedIfElse(\n");
+
+        if(IfStmt!=null)
+            buffer.append(IfStmt.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
 
         if(Condition!=null)
             buffer.append(Condition.toString("  "+tab));

@@ -1,0 +1,148 @@
+INFO  22:42:36,573 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  22:42:36,606 - #6 program
+INFO  22:42:36,606 - #2 test302
+INFO  22:42:36,606 - #10 const
+INFO  22:42:36,607 - #2 int
+INFO  22:42:36,607 - #2 jedan
+INFO  22:42:36,608 - #36 =
+INFO  22:42:36,608 - #3 1
+INFO  22:42:36,608 - #39 ;
+INFO  22:42:36,608 - #2 int
+INFO  22:42:36,609 - #2 i
+INFO  22:42:36,609 - #40 ,
+INFO  22:42:36,609 - #2 j
+INFO  22:42:36,609 - #39 ;
+INFO  22:42:36,609 - #2 bool
+INFO  22:42:36,610 - #2 ibool
+INFO  22:42:36,610 - #39 ;
+INFO  22:42:36,610 - #2 int
+INFO  22:42:36,610 - #2 niz
+INFO  22:42:36,610 - #46 [
+INFO  22:42:36,610 - #47 ]
+INFO  22:42:36,610 - #39 ;
+INFO  22:42:36,610 - #44 {
+INFO  22:42:36,612 - #11 void
+INFO  22:42:36,612 - #2 main
+INFO  22:42:36,613 - #42 (
+INFO  22:42:36,613 - #43 )
+INFO  22:42:36,614 - #44 {
+INFO  22:42:36,614 - #21 print
+INFO  22:42:36,615 - #42 (
+INFO  22:42:36,615 - #2 ord
+INFO  22:42:36,615 - #42 (
+INFO  22:42:36,616 - #4 A
+INFO  22:42:36,616 - #43 )
+INFO  22:42:36,616 - #43 )
+INFO  22:42:36,616 - #39 ;
+INFO  22:42:36,616 - #45 }
+INFO  22:42:36,617 - #45 }
+INFO  22:42:36,633 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    VarParam(
+      VarParam(
+        ConstParam(
+          ParamDeclDerived1(
+          ) [ParamDeclDerived1]
+          ConstDecl(
+            Type(
+             int
+            ) [Type]
+            SingleNumberConst(
+             jedan
+             1
+            ) [SingleNumberConst]
+          ) [ConstDecl]
+        ) [ConstParam]
+        VarDeclaration(
+          Type(
+           int
+          ) [Type]
+         i
+          VarDeclMore(
+            NoVarDeclMore(
+            ) [NoVarDeclMore]
+           j
+          ) [VarDeclMore]
+        ) [VarDeclaration]
+      ) [VarParam]
+      VarDeclaration(
+        Type(
+         bool
+        ) [Type]
+       ibool
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+      ) [VarDeclaration]
+    ) [VarParam]
+    VarDeclarationArray(
+      Type(
+       int
+      ) [Type]
+     niz
+      NoVarDeclMore(
+      ) [NoVarDeclMore]
+    ) [VarDeclarationArray]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        NoStmt(
+        ) [NoStmt]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                FuncCall(
+                  DesBasic(
+                   ord
+                  ) [DesBasic]
+                  Actuals(
+                    SingleParam(
+                      BasicExpr(
+                        NoMinus(
+                        ) [NoMinus]
+                        TermExpr(
+                          FactorTerm(
+                            CharConst(
+                             A
+                            ) [CharConst]
+                          ) [FactorTerm]
+                        ) [TermExpr]
+                      ) [BasicExpr]
+                    ) [SingleParam]
+                  ) [Actuals]
+                ) [FuncCall]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  22:42:36,633 - ===================================
+INFO  22:42:36,639 - Deklarisana je nova konstanta jedan na liniji 5
+INFO  22:42:36,639 - Deklarisana je promenljiva j na liniji 7
+INFO  22:42:36,639 - Deklarisana je promenljiva i na liniji 7
+INFO  22:42:36,639 - Deklarisana je promenljiva ibool na liniji 8
+INFO  22:42:36,639 - Deklarisana je promenljiva niz na liniji 10
+INFO  22:42:36,639 - Obradjuje se funkcija main na liniji 16
+INFO  22:42:36,640 - Pronadjen poziv funkcije ord na liniji 18
+INFO  22:42:36,640 - ===================================
+INFO  22:42:36,643 - Parsiranje uspesno zavrseno!

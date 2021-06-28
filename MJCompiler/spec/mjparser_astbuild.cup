@@ -2,17 +2,33 @@
 
 package rs.ac.bg.etf.pp1;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java_cup.runtime.*;
 import org.apache.log4j.*;
 import rs.ac.bg.etf.pp1.ast.*;
 
+import rs.ac.bg.etf.pp1.test.CompilerError;
+import rs.ac.bg.etf.pp1.test.CompilerError.CompilerErrorType;
+
 parser code {:
+	List<CompilerError> compilerErrors = new ArrayList<CompilerError>();
 
 	boolean errorDetected = false;
 
 	Logger log = Logger.getLogger(getClass());
 	
     // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
+    
+    private void reportError(int line, String message) {
+		CompilerError ce = new CompilerError(line, message, CompilerErrorType.SYNTAX_ERROR);
+		compilerErrors.add(ce);
+	}
+	
+	public List<CompilerError> getErrors() {
+		return compilerErrors;
+	}
      
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
       done_parsing();
@@ -20,7 +36,7 @@ parser code {:
     }
   
     public void syntax_error(Symbol cur_token) {
-        report_error("\nSintaksna greska", cur_token);
+        report_error("Sintaksna greska", cur_token);
     }
   
     public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
@@ -33,6 +49,9 @@ parser code {:
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
+        if (info instanceof Symbol) {
+        	reportError(((Symbol)info).left, message);
+        }
     }
 :}
 
@@ -75,7 +94,7 @@ terminal DEFAULT, YIELD, GOTO;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement, CondFact, CondTerm, Condition;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList, Statement;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt, SwitchExpr;
 
 nonterminal ParamDecl ParamDecl;
 nonterminal ConstDecl ConstDecl;
@@ -92,12 +111,12 @@ nonterminal FormPars FormPars;
 nonterminal FormParamDecl FormParamDecl;
 nonterminal ElseStmt ElseStmt;
 nonterminal PrintExpr PrintExpr;
-nonterminal SwitchExpr SwitchExpr;
 nonterminal DefaultStmt DefaultStmt;
 nonterminal YieldStatement YieldStatement;
 nonterminal CaseStatements CaseStatements;
 nonterminal DesignatorAssignment DesignatorAssignment;
 nonterminal DoStmt DoStmt;
+nonterminal IfStmt IfStmt;
 nonterminal StmtList StmtList;
 nonterminal ActPars ActPars;
 nonterminal OptionalMinus OptionalMinus;
@@ -107,6 +126,8 @@ nonterminal Relop Relop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 nonterminal Label Label;
+nonterminal ElseTerminal ElseTerminal;
+nonterminal CaseCase CaseCase;
 
 precedence left ELSE;
 
@@ -143,10 +164,10 @@ VarDecl ::= (VarDeclaration) Type:varType IDENT:varName VarDeclRest:V1 SEMI {: R
 			(VarDeclarationArray) Type:varType IDENT:varName LSQUARE RSQUARE VarDeclRest:V1 SEMI {: RESULT=new VarDeclarationArray(varType, varName, V1); RESULT.setLine(varTypeleft); :}
 			|
 			error SEMI:l
-			{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :} {: RESULT=new VarDeclDerived1(); :}
+			{: parser.report_error("Izvrsen oporavak do ; u liniji ", l);  :} {: RESULT=new VarDeclDerived1(); :}
 			|
 			error COMMA:l
-			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :} {: RESULT=new VarDeclDerived2(); :}
+			{: parser.report_error("Izvrsen oporavak do , u liniji ", l);  :} {: RESULT=new VarDeclDerived2(); :}
 			;
 			
 VarDeclRest ::= (VarDeclMore) VarDeclRest:V1 COMMA IDENT:varName {: RESULT=new VarDeclMore(V1, varName); RESULT.setLine(V1left); :}
@@ -166,8 +187,6 @@ VarDeclList ::= (VarDeclarations) VarDeclList:V1 VarDecl:V2 {: RESULT=new VarDec
 				(NoVarDecl) {: RESULT=new NoVarDecl(); :} /* epsilon */
 				; 
 
-
-				
 MethodDeclList ::= (MethodDeclarations) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new MethodDeclarations(M1, M2); RESULT.setLine(M1left); :}
 					|
 					(NoMethodDeclarations) {: RESULT=new NoMethodDeclarations(); :} /* epsilon */
@@ -201,7 +220,7 @@ Type ::= (Type) IDENT:type {: RESULT=new Type(type); RESULT.setLine(typeleft); :
 
 Statement ::= (DesStmt) DesignatorStatement:D1 SEMI {: RESULT=new DesStmt(D1); RESULT.setLine(D1left); :}
 			|
-			(MatchedIfElse) IF LPAREN Condition:C1 RPAREN Statement:S2 ElseStmt:E3 {: RESULT=new MatchedIfElse(C1, S2, E3); RESULT.setLine(C1left); :}
+			(MatchedIfElse) IfStmt:I1 LPAREN Condition:C2 RPAREN Statement:S3 ElseStmt:E4 {: RESULT=new MatchedIfElse(I1, C2, S3, E4); RESULT.setLine(I1left); :}
 			|
 			(DoWhileStmt) DoStmt:D1 Statement:S2 WHILE LPAREN Condition:C3 RPAREN SEMI {: RESULT=new DoWhileStmt(D1, S2, C3); RESULT.setLine(D1left); :}
 			|
@@ -229,11 +248,15 @@ Statement ::= (DesStmt) DesignatorStatement:D1 SEMI {: RESULT=new DesStmt(D1); R
 YieldStatement ::= (YieldStatement) YIELD {: RESULT=new YieldStatement(); :};
 			
 DoStmt ::= (DoStmt) DO {: RESULT=new DoStmt(); :};
+
+IfStmt ::= (IfStmt) IF {: RESULT=new IfStmt(); :};
 			
-ElseStmt ::= (ElseStatement) ELSE Statement:S1 {: RESULT=new ElseStatement(S1); RESULT.setLine(S1left); :}
+ElseStmt ::= (ElseStatement) ElseTerminal:E1 Statement:S2 {: RESULT=new ElseStatement(E1, S2); RESULT.setLine(E1left); :}
 			|
 			(NoElseStatement) {: RESULT=new NoElseStatement(); :} /* epsilon */
 			;
+			
+ElseTerminal ::= (ElseTerminal) ELSE {: RESULT=new ElseTerminal(); :};
 			
 StmtList ::= (MultiStmtList) StmtList:S1 Statement:S2 {: RESULT=new MultiStmtList(S1, S2); RESULT.setLine(S1left); :}
 			|
@@ -253,7 +276,7 @@ DesignatorStatement ::= (DesAssign) Designator:varName Assignop:A1 Expr:val {: R
 						(VarDec) Designator:varName DEC {: RESULT=new VarDec(varName); RESULT.setLine(varNameleft); :}
 						|
 						error SEMI:l
-		   				{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :} {: RESULT=new DesignatorStatementDerived1(); :}
+		   				{: parser.report_error("Izvrsen oporavak do ; u liniji ", l);  :} {: RESULT=new DesignatorStatementDerived1(); :}
 						;						
 
 ActPars ::= (MultipleParam) ActPars:A1 COMMA Expr:paramName {: RESULT=new MultipleParam(A1, paramName); RESULT.setLine(A1left); :}
@@ -287,7 +310,9 @@ Expr ::= (BasicExpr) OptionalMinus:O1 Expr1:expr {: RESULT=new BasicExpr(O1, exp
 		
 SwitchExpr ::= (SwitchExpr) SWITCH {: RESULT=new SwitchExpr(); :};
 		
-CaseStmt ::= (CaseStmt) CASE NUMBER:N1 DDOT StmtList:S2 {: RESULT=new CaseStmt(N1, S2); RESULT.setLine(N1left); :};
+CaseStmt ::= (CaseStmt) CaseCase:C1 DDOT StmtList:S2 {: RESULT=new CaseStmt(C1, S2); RESULT.setLine(C1left); :};
+
+CaseCase ::= (CaseCase) CASE NUMBER:N1 {: RESULT=new CaseCase(N1); RESULT.setLine(N1left); :};
 
 CaseList ::= (MultiCaseList) CaseList:C1 CaseStmt:C2 {: RESULT=new MultiCaseList(C1, C2); RESULT.setLine(C1left); :}
 			|

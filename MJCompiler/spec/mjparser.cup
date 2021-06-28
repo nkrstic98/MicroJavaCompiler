@@ -2,17 +2,33 @@
 
 package rs.ac.bg.etf.pp1;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java_cup.runtime.*;
 import org.apache.log4j.*;
 import rs.ac.bg.etf.pp1.ast.*;
 
+import rs.ac.bg.etf.pp1.test.CompilerError;
+import rs.ac.bg.etf.pp1.test.CompilerError.CompilerErrorType;
+
 parser code {:
+	List<CompilerError> compilerErrors = new ArrayList<CompilerError>();
 
 	boolean errorDetected = false;
 
 	Logger log = Logger.getLogger(getClass());
 	
     // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
+    
+    private void reportError(int line, String message) {
+		CompilerError ce = new CompilerError(line, message, CompilerErrorType.SYNTAX_ERROR);
+		compilerErrors.add(ce);
+	}
+	
+	public List<CompilerError> getErrors() {
+		return compilerErrors;
+	}
      
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
       done_parsing();
@@ -20,7 +36,7 @@ parser code {:
     }
   
     public void syntax_error(Symbol cur_token) {
-        report_error("\nSintaksna greska", cur_token);
+        report_error("Sintaksna greska", cur_token);
     }
   
     public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
@@ -33,6 +49,9 @@ parser code {:
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
+        if (info instanceof Symbol) {
+        	reportError(((Symbol)info).left, message);
+        }
     }
 :}
 
@@ -75,7 +94,7 @@ terminal DEFAULT, YIELD, GOTO;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program, MethodDecl, MethodTypeName, Designator, DesignatorArrayName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, Factor, Term, Expr1, Expr, DesignatorStatement, CondFact, CondTerm, Condition;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct CondFactList, CondTermList, Statement;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct CaseList, CaseStmt, SwitchExpr;
 
 nonterminal ParamDecl;
 nonterminal ConstDecl, ConstAssign;
@@ -84,13 +103,14 @@ nonterminal VarDeclList, MethodDeclList;
 nonterminal ClassDecl, ClassMethods;
 nonterminal OptFormPars;
 nonterminal FormPars, FormParamDecl;
-nonterminal ElseStmt, PrintExpr, SwitchExpr, DefaultStmt, YieldStatement, CaseStatements;
+nonterminal ElseStmt, PrintExpr, DefaultStmt, YieldStatement, CaseStatements;
 nonterminal DesignatorAssignment;
-nonterminal DoStmt, StmtList;
+nonterminal DoStmt, IfStmt, StmtList;
 nonterminal ActPars, OptionalMinus;
 nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
-nonterminal Label;
+nonterminal Label, ElseTerminal;
+nonterminal CaseCase;
 
 precedence left ELSE;
 
@@ -127,10 +147,10 @@ VarDecl ::= (VarDeclaration) Type:varType IDENT:varName VarDeclRest SEMI
 			(VarDeclarationArray) Type:varType IDENT:varName LSQUARE RSQUARE VarDeclRest SEMI
 			|
 			error SEMI:l
-			{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :}
+			{: parser.report_error("Izvrsen oporavak do ; u liniji ", l);  :}
 			|
 			error COMMA:l
-			{: parser.report_error("Izvrsen oporavak do , u liniji " + lleft, null);  :}
+			{: parser.report_error("Izvrsen oporavak do , u liniji ", l);  :}
 			;
 			
 VarDeclRest ::= (VarDeclMore) VarDeclRest COMMA IDENT:varName
@@ -150,8 +170,6 @@ VarDeclList ::= (VarDeclarations) VarDeclList VarDecl
 				(NoVarDecl) /* epsilon */
 				; 
 
-
-				
 MethodDeclList ::= (MethodDeclarations) MethodDeclList MethodDecl
 					|
 					(NoMethodDeclarations) /* epsilon */
@@ -185,7 +203,7 @@ Type ::= (Type) IDENT:type;
 
 Statement ::= (DesStmt) DesignatorStatement SEMI
 			|
-			(MatchedIfElse) IF LPAREN Condition RPAREN Statement ElseStmt
+			(MatchedIfElse) IfStmt LPAREN Condition RPAREN Statement ElseStmt
 			|
 			(DoWhileStmt) DoStmt Statement WHILE LPAREN Condition RPAREN SEMI
 			|
@@ -213,11 +231,15 @@ Statement ::= (DesStmt) DesignatorStatement SEMI
 YieldStatement ::= (YieldStatement) YIELD;
 			
 DoStmt ::= (DoStmt) DO;
+
+IfStmt ::= (IfStmt) IF;
 			
-ElseStmt ::= (ElseStatement) ELSE Statement
+ElseStmt ::= (ElseStatement) ElseTerminal Statement
 			|
 			(NoElseStatement) /* epsilon */
 			;
+			
+ElseTerminal ::= (ElseTerminal) ELSE;
 			
 StmtList ::= (MultiStmtList) StmtList Statement
 			|
@@ -237,7 +259,7 @@ DesignatorStatement ::= (DesAssign) Designator:varName Assignop Expr:val
 						(VarDec) Designator:varName DEC
 						|
 						error SEMI:l
-		   				{: parser.report_error("Izvrsen oporavak do ; u liniji " + lleft, null);  :}
+		   				{: parser.report_error("Izvrsen oporavak do ; u liniji ", l);  :}
 						;						
 
 ActPars ::= (MultipleParam) ActPars COMMA Expr:paramName
@@ -271,7 +293,9 @@ Expr ::= (BasicExpr) OptionalMinus Expr1:expr
 		
 SwitchExpr ::= (SwitchExpr) SWITCH;
 		
-CaseStmt ::= (CaseStmt) CASE NUMBER DDOT StmtList;
+CaseStmt ::= (CaseStmt) CaseCase DDOT StmtList;
+
+CaseCase ::= (CaseCase) CASE NUMBER;
 
 CaseList ::= (MultiCaseList) CaseList CaseStmt
 			|

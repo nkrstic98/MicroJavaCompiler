@@ -1,0 +1,150 @@
+INFO  22:36:44,486 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  22:36:44,521 - #6 program
+INFO  22:36:44,521 - #2 test302
+INFO  22:36:44,521 - #10 const
+INFO  22:36:44,522 - #2 int
+INFO  22:36:44,522 - #2 jedan
+INFO  22:36:44,522 - #36 =
+INFO  22:36:44,522 - #3 1
+INFO  22:36:44,522 - #39 ;
+INFO  22:36:44,523 - #2 int
+INFO  22:36:44,523 - #2 i
+INFO  22:36:44,523 - #40 ,
+INFO  22:36:44,524 - #2 j
+INFO  22:36:44,524 - #39 ;
+INFO  22:36:44,524 - #2 bool
+INFO  22:36:44,524 - #2 ibool
+INFO  22:36:44,524 - #39 ;
+INFO  22:36:44,524 - #2 int
+INFO  22:36:44,524 - #2 niz
+INFO  22:36:44,524 - #46 [
+INFO  22:36:44,525 - #47 ]
+INFO  22:36:44,525 - #39 ;
+INFO  22:36:44,525 - #44 {
+INFO  22:36:44,526 - #11 void
+INFO  22:36:44,527 - #2 main
+INFO  22:36:44,528 - #42 (
+INFO  22:36:44,528 - #43 )
+INFO  22:36:44,528 - #44 {
+INFO  22:36:44,529 - #21 print
+INFO  22:36:44,529 - #42 (
+INFO  22:36:44,529 - #2 ord
+INFO  22:36:44,530 - #42 (
+INFO  22:36:44,530 - #3 11
+INFO  22:36:44,530 - #43 )
+INFO  22:36:44,531 - #43 )
+INFO  22:36:44,531 - #39 ;
+INFO  22:36:44,531 - #45 }
+INFO  22:36:44,531 - #45 }
+INFO  22:36:44,553 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    VarParam(
+      VarParam(
+        ConstParam(
+          ParamDeclDerived1(
+          ) [ParamDeclDerived1]
+          ConstDecl(
+            Type(
+             int
+            ) [Type]
+            SingleNumberConst(
+             jedan
+             1
+            ) [SingleNumberConst]
+          ) [ConstDecl]
+        ) [ConstParam]
+        VarDeclaration(
+          Type(
+           int
+          ) [Type]
+         i
+          VarDeclMore(
+            NoVarDeclMore(
+            ) [NoVarDeclMore]
+           j
+          ) [VarDeclMore]
+        ) [VarDeclaration]
+      ) [VarParam]
+      VarDeclaration(
+        Type(
+         bool
+        ) [Type]
+       ibool
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+      ) [VarDeclaration]
+    ) [VarParam]
+    VarDeclarationArray(
+      Type(
+       int
+      ) [Type]
+     niz
+      NoVarDeclMore(
+      ) [NoVarDeclMore]
+    ) [VarDeclarationArray]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        NoStmt(
+        ) [NoStmt]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                FuncCall(
+                  DesBasic(
+                   ord
+                  ) [DesBasic]
+                  Actuals(
+                    SingleParam(
+                      BasicExpr(
+                        NoMinus(
+                        ) [NoMinus]
+                        TermExpr(
+                          FactorTerm(
+                            NumConst(
+                             11
+                            ) [NumConst]
+                          ) [FactorTerm]
+                        ) [TermExpr]
+                      ) [BasicExpr]
+                    ) [SingleParam]
+                  ) [Actuals]
+                ) [FuncCall]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  22:36:44,554 - ===================================
+INFO  22:36:44,557 - Deklarisana je nova konstanta jedan na liniji 5
+INFO  22:36:44,557 - Deklarisana je promenljiva j na liniji 7
+INFO  22:36:44,557 - Deklarisana je promenljiva i na liniji 7
+INFO  22:36:44,558 - Deklarisana je promenljiva ibool na liniji 8
+INFO  22:36:44,558 - Deklarisana je promenljiva niz na liniji 10
+INFO  22:36:44,558 - Obradjuje se funkcija main na liniji 16
+INFO  22:36:44,558 - Pronadjen poziv funkcije ord na liniji 18
+ERROR 22:36:44,559 - Greska : prosledjeni parametri funkcije ord se ne slazu sa formalnim parametrima funkcije  na liniji 18
+INFO  22:36:44,559 - ===================================
+ERROR 22:36:44,560 - Parsiranje NIJE uspesno zavrseno!
+ERROR 22:36:44,561 - [Line #18]  SEMANTIC_ERROR: Greska : prosledjeni parametri funkcije ord se ne slazu sa formalnim parametrima funkcije 

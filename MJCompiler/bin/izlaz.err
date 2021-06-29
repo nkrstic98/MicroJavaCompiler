@@ -1,0 +1,3 @@
+[Line #12]  LEXICAL_ERROR: Simbol @ ne postoji u tabeli simbola 
+[Line #12]  SYNTAX_ERROR: Sintaksna greska
+[Line #83]  SEMANTIC_ERROR: Greska: ne postoji yield naredba u default labeli u switch-u 

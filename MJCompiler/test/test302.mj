@@ -92,7 +92,7 @@ int niz[];
 						i = i + 3;
 						yield 7;
 					default:
-						yield 10;
+					yield 11;
 			};
 		print(eol);
 		print(i);

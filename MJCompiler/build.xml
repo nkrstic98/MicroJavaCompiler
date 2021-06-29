@@ -23,7 +23,7 @@
 			</delete>
 		</target>
 
-		<target name="lexerGen" depends="parserGen">
+		<target name="lexerGen" depends="delete">
 			<java jar="lib/JFlex.jar" fork="true">
 				<arg value="-d" />
 				<arg value="./src/rs/ac/bg/etf/pp1" />
@@ -31,7 +31,7 @@
 			</java>
 		</target>
 
-		<target name="parserGen" depends="delete">
+		<target name="parserGen" depends="lexerGen">
 			<java jar="lib/cup_v10k.jar" fork="true">
 				<arg value="-destdir" />
 				<arg value="src/rs/ac/bg/etf/pp1" />
@@ -45,7 +45,7 @@
 			</java>
 		</target>
 
-		<target name="repackage" depends="lexerGen">
+		<target name="repackage" depends="parserGen">
 			<!-- Replaces all of the references to the old package name in files in the "src" directory -->
 			<replace dir="src" value="rs.ac.bg.etf.pp1.ast" token="src.rs.ac.bg.etf.pp1.ast" summary="true" />
 		</target>
@@ -73,7 +73,7 @@
 	</target>
 
 	<target name="runObj" >
-		<java classname="rs.etf.pp1.mj.runtime.Run" input="test/ulaz.txt">
+		<java classname="rs.etf.pp1.mj.runtime.Run">
 			<arg value="test/program.obj"/>
 			<classpath>
 				<pathelement location="lib/mj-runtime-1.1.jar"/>
@@ -82,7 +82,7 @@
 	</target>
 	
 	<target name="debugObj" depends="disasm">
-		<java classname="rs.etf.pp1.mj.runtime.Run" input="test/ulaz.txt">
+		<java classname="rs.etf.pp1.mj.runtime.Run">
 			<arg value="test/program.obj"/>
 			<arg value="-debug"/>
 			<classpath>

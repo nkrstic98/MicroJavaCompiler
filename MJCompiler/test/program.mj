@@ -92,6 +92,9 @@ int niz[];
 						i = i + 3;
 						yield 7;
 					default:
+						i++;
+						i = i + 10;
+						i--;
 						yield 10;
 			};
 		print(eol);

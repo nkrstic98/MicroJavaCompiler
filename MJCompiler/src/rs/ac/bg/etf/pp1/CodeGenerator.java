@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import rs.ac.bg.etf.pp1.CounterVisitor.FormParamCounter;
+import rs.ac.bg.etf.pp1.CounterVisitor.VarCounter;
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.*;
@@ -74,19 +76,23 @@ public class CodeGenerator extends VisitorAdaptor {
 
 	/*=========================== Method Call ==========================*/
 	public void visit(MethodTypeName methodTypeName) {
-		methodTypeName.obj.setAdr(Code.pc);
-		
-		if(methodTypeName.getMethName().equals("main")) {
+		if(methodTypeName.getMethName().equalsIgnoreCase("main")) {
 			mainPc = Code.pc;
 		}
 		
-		int fpCnt = 0;
-		for(Obj obj: methodTypeName.obj.getLocalSymbols())
-			fpCnt += obj.getFpPos();
+		methodTypeName.obj.setAdr(Code.pc);
+		
+		SyntaxNode methodNode = methodTypeName.getParent();
+		
+		VarCounter varCnt = new VarCounter();
+		methodNode.traverseTopDown(varCnt);
+		
+		FormParamCounter fpCnt = new FormParamCounter();
+		methodNode.traverseTopDown(fpCnt);
 		
 		Code.put(Code.enter);
-		Code.put(fpCnt);
-		Code.put(methodTypeName.obj.getLocalSymbols().size());
+		Code.put(fpCnt.getCount());
+		Code.put(fpCnt.getCount() + varCnt.getCount());
 	}
 	
 	public void visit(MethodDecl methodDecl) {

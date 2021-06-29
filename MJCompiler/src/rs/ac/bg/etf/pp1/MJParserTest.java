@@ -64,7 +64,7 @@ public class MJParserTest implements Compiler {
 			Tab.dump();
 			
 			if(!p.errorDetected && v.passed()) {
-				File objFile = new File("test/program.obj");
+				File objFile = new File(outputFilePath);
 				if(objFile.exists()) objFile.delete();
 				
 				CodeGenerator codeGenerator = new CodeGenerator();

@@ -95,10 +95,8 @@ int niz[];
 						yield 10;
 			};
 		print(eol);
-		print('i');
 		print(i);
 		print(eol);
-		print('j');
 		print(j);
 	}
 }

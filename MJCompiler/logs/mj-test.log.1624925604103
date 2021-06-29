@@ -1,0 +1,356 @@
+INFO  02:12:59,912 - Compiling source file: C:\Users\Nikola\Desktop\MJCompiler\MJCompiler\test\program.mj
+INFO  02:12:59,948 - #6 program
+INFO  02:12:59,948 - #2 test302
+INFO  02:12:59,948 - #10 const
+INFO  02:12:59,949 - #2 int
+INFO  02:12:59,949 - #2 jedan
+INFO  02:12:59,950 - #36 =
+INFO  02:12:59,950 - #3 1
+INFO  02:12:59,950 - #39 ;
+INFO  02:12:59,950 - #2 int
+INFO  02:12:59,951 - #2 j
+INFO  02:12:59,951 - #40 ,
+INFO  02:12:59,951 - #2 i
+INFO  02:12:59,951 - #39 ;
+INFO  02:12:59,951 - #44 {
+INFO  02:12:59,952 - #11 void
+INFO  02:12:59,952 - #2 main
+INFO  02:12:59,953 - #42 (
+INFO  02:12:59,954 - #43 )
+INFO  02:12:59,954 - #44 {
+INFO  02:12:59,954 - #2 j
+INFO  02:12:59,955 - #36 =
+INFO  02:12:59,955 - #17 switch
+INFO  02:12:59,958 - #42 (
+INFO  02:12:59,958 - #3 1
+INFO  02:12:59,959 - #43 )
+INFO  02:12:59,959 - #44 {
+INFO  02:12:59,959 - #18 case
+INFO  02:12:59,960 - #3 1
+INFO  02:12:59,960 - #49 :
+INFO  02:12:59,960 - #21 print
+INFO  02:12:59,961 - #42 (
+INFO  02:12:59,961 - #3 1
+INFO  02:12:59,961 - #43 )
+INFO  02:12:59,961 - #39 ;
+INFO  02:12:59,961 - #18 case
+INFO  02:12:59,962 - #3 3
+INFO  02:12:59,962 - #49 :
+INFO  02:12:59,962 - #21 print
+INFO  02:12:59,962 - #42 (
+INFO  02:12:59,962 - #3 3
+INFO  02:12:59,962 - #43 )
+INFO  02:12:59,962 - #39 ;
+INFO  02:12:59,962 - #18 case
+INFO  02:12:59,962 - #3 2
+INFO  02:12:59,963 - #49 :
+INFO  02:12:59,963 - #21 print
+INFO  02:12:59,963 - #42 (
+INFO  02:12:59,963 - #3 2
+INFO  02:12:59,963 - #43 )
+INFO  02:12:59,963 - #39 ;
+INFO  02:12:59,963 - #2 i
+INFO  02:12:59,963 - #38 --
+INFO  02:12:59,963 - #39 ;
+INFO  02:12:59,963 - #18 case
+INFO  02:12:59,963 - #3 4
+INFO  02:12:59,963 - #49 :
+INFO  02:12:59,963 - #21 print
+INFO  02:12:59,963 - #42 (
+INFO  02:12:59,963 - #3 2
+INFO  02:12:59,963 - #43 )
+INFO  02:12:59,964 - #39 ;
+INFO  02:12:59,964 - #21 print
+INFO  02:12:59,964 - #42 (
+INFO  02:12:59,964 - #3 4
+INFO  02:12:59,964 - #43 )
+INFO  02:12:59,964 - #39 ;
+INFO  02:12:59,964 - #50 default
+INFO  02:12:59,964 - #49 :
+INFO  02:12:59,965 - #51 yield
+INFO  02:12:59,965 - #3 10
+INFO  02:12:59,965 - #39 ;
+INFO  02:12:59,965 - #45 }
+INFO  02:12:59,966 - #39 ;
+INFO  02:12:59,966 - #21 print
+INFO  02:12:59,966 - #42 (
+INFO  02:12:59,966 - #2 j
+INFO  02:12:59,966 - #43 )
+INFO  02:12:59,966 - #39 ;
+INFO  02:12:59,966 - #21 print
+INFO  02:12:59,966 - #42 (
+INFO  02:12:59,966 - #2 i
+INFO  02:12:59,966 - #43 )
+INFO  02:12:59,966 - #39 ;
+INFO  02:12:59,966 - #45 }
+INFO  02:12:59,967 - #45 }
+INFO  02:12:59,984 - Program(
+  ProgName(
+   test302
+  ) [ProgName]
+  VarParam(
+    ConstParam(
+      ParamDeclDerived1(
+      ) [ParamDeclDerived1]
+      ConstDecl(
+        Type(
+         int
+        ) [Type]
+        SingleNumberConst(
+         jedan
+         1
+        ) [SingleNumberConst]
+      ) [ConstDecl]
+    ) [ConstParam]
+    VarDeclaration(
+      Type(
+       int
+      ) [Type]
+     j
+      VarDeclMore(
+        NoVarDeclMore(
+        ) [NoVarDeclMore]
+       i
+      ) [VarDeclMore]
+    ) [VarDeclaration]
+  ) [VarParam]
+  MethodDeclarations(
+    NoMethodDeclarations(
+    ) [NoMethodDeclarations]
+    MethodDecl(
+      MethodTypeName(
+        VoidRetType(
+        ) [VoidRetType]
+       main
+      ) [MethodTypeName]
+      NoFormPars(
+      ) [NoFormPars]
+      NoVarDecl(
+      ) [NoVarDecl]
+      MultiStmtList(
+        MultiStmtList(
+          MultiStmtList(
+            NoStmt(
+            ) [NoStmt]
+            DesStmt(
+              DesAssign(
+                DesBasic(
+                 j
+                ) [DesBasic]
+                AssignOperator(
+                ) [AssignOperator]
+                SwitchExpretion(
+                  SwitchExpr(
+                  ) [SwitchExpr]
+                  BasicExpr(
+                    NoMinus(
+                    ) [NoMinus]
+                    TermExpr(
+                      FactorTerm(
+                        NumConst(
+                         1
+                        ) [NumConst]
+                      ) [FactorTerm]
+                    ) [TermExpr]
+                  ) [BasicExpr]
+                  CaseStatements(
+                    MultiCaseList(
+                      MultiCaseList(
+                        MultiCaseList(
+                          MultiCaseList(
+                            NoCase(
+                            ) [NoCase]
+                            CaseStmt(
+                              CaseCase(
+                               1
+                              ) [CaseCase]
+                              CaseDdot(
+                              ) [CaseDdot]
+                              MultiStmtList(
+                                NoStmt(
+                                ) [NoStmt]
+                                PrintStmt(
+                                  BasicExpr(
+                                    NoMinus(
+                                    ) [NoMinus]
+                                    TermExpr(
+                                      FactorTerm(
+                                        NumConst(
+                                         1
+                                        ) [NumConst]
+                                      ) [FactorTerm]
+                                    ) [TermExpr]
+                                  ) [BasicExpr]
+                                ) [PrintStmt]
+                              ) [MultiStmtList]
+                            ) [CaseStmt]
+                          ) [MultiCaseList]
+                          CaseStmt(
+                            CaseCase(
+                             3
+                            ) [CaseCase]
+                            CaseDdot(
+                            ) [CaseDdot]
+                            MultiStmtList(
+                              NoStmt(
+                              ) [NoStmt]
+                              PrintStmt(
+                                BasicExpr(
+                                  NoMinus(
+                                  ) [NoMinus]
+                                  TermExpr(
+                                    FactorTerm(
+                                      NumConst(
+                                       3
+                                      ) [NumConst]
+                                    ) [FactorTerm]
+                                  ) [TermExpr]
+                                ) [BasicExpr]
+                              ) [PrintStmt]
+                            ) [MultiStmtList]
+                          ) [CaseStmt]
+                        ) [MultiCaseList]
+                        CaseStmt(
+                          CaseCase(
+                           2
+                          ) [CaseCase]
+                          CaseDdot(
+                          ) [CaseDdot]
+                          MultiStmtList(
+                            MultiStmtList(
+                              NoStmt(
+                              ) [NoStmt]
+                              PrintStmt(
+                                BasicExpr(
+                                  NoMinus(
+                                  ) [NoMinus]
+                                  TermExpr(
+                                    FactorTerm(
+                                      NumConst(
+                                       2
+                                      ) [NumConst]
+                                    ) [FactorTerm]
+                                  ) [TermExpr]
+                                ) [BasicExpr]
+                              ) [PrintStmt]
+                            ) [MultiStmtList]
+                            DesStmt(
+                              VarDec(
+                                DesBasic(
+                                 i
+                                ) [DesBasic]
+                              ) [VarDec]
+                            ) [DesStmt]
+                          ) [MultiStmtList]
+                        ) [CaseStmt]
+                      ) [MultiCaseList]
+                      CaseStmt(
+                        CaseCase(
+                         4
+                        ) [CaseCase]
+                        CaseDdot(
+                        ) [CaseDdot]
+                        MultiStmtList(
+                          MultiStmtList(
+                            NoStmt(
+                            ) [NoStmt]
+                            PrintStmt(
+                              BasicExpr(
+                                NoMinus(
+                                ) [NoMinus]
+                                TermExpr(
+                                  FactorTerm(
+                                    NumConst(
+                                     2
+                                    ) [NumConst]
+                                  ) [FactorTerm]
+                                ) [TermExpr]
+                              ) [BasicExpr]
+                            ) [PrintStmt]
+                          ) [MultiStmtList]
+                          PrintStmt(
+                            BasicExpr(
+                              NoMinus(
+                              ) [NoMinus]
+                              TermExpr(
+                                FactorTerm(
+                                  NumConst(
+                                   4
+                                  ) [NumConst]
+                                ) [FactorTerm]
+                              ) [TermExpr]
+                            ) [BasicExpr]
+                          ) [PrintStmt]
+                        ) [MultiStmtList]
+                      ) [CaseStmt]
+                    ) [MultiCaseList]
+                    DefaultStmt(
+                    ) [DefaultStmt]
+                    MultiStmtList(
+                      NoStmt(
+                      ) [NoStmt]
+                      YieldStmt(
+                        YieldStatement(
+                        ) [YieldStatement]
+                        BasicExpr(
+                          NoMinus(
+                          ) [NoMinus]
+                          TermExpr(
+                            FactorTerm(
+                              NumConst(
+                               10
+                              ) [NumConst]
+                            ) [FactorTerm]
+                          ) [TermExpr]
+                        ) [BasicExpr]
+                      ) [YieldStmt]
+                    ) [MultiStmtList]
+                  ) [CaseStatements]
+                ) [SwitchExpretion]
+              ) [DesAssign]
+            ) [DesStmt]
+          ) [MultiStmtList]
+          PrintStmt(
+            BasicExpr(
+              NoMinus(
+              ) [NoMinus]
+              TermExpr(
+                FactorTerm(
+                  Var(
+                    DesBasic(
+                     j
+                    ) [DesBasic]
+                  ) [Var]
+                ) [FactorTerm]
+              ) [TermExpr]
+            ) [BasicExpr]
+          ) [PrintStmt]
+        ) [MultiStmtList]
+        PrintStmt(
+          BasicExpr(
+            NoMinus(
+            ) [NoMinus]
+            TermExpr(
+              FactorTerm(
+                Var(
+                  DesBasic(
+                   i
+                  ) [DesBasic]
+                ) [Var]
+              ) [FactorTerm]
+            ) [TermExpr]
+          ) [BasicExpr]
+        ) [PrintStmt]
+      ) [MultiStmtList]
+    ) [MethodDecl]
+  ) [MethodDeclarations]
+) [Program]
+INFO  02:12:59,984 - ===================================
+INFO  02:12:59,988 - Deklarisana je nova konstanta jedan na liniji 5
+INFO  02:12:59,988 - Deklarisana je promenljiva i na liniji 7
+INFO  02:12:59,988 - Deklarisana je promenljiva j na liniji 7
+INFO  02:12:59,988 - Obradjuje se funkcija main na liniji 13
+INFO  02:12:59,988 - Promenljiva i je inkrementirana  na liniji 22
+INFO  02:12:59,989 - Promenljivoj se dodeljuje vrednost  na liniji 15
+INFO  02:12:59,989 - ===================================
+INFO  02:12:59,994 - Parsiranje uspesno zavrseno!

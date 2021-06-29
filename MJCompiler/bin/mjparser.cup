@@ -110,7 +110,7 @@ nonterminal ActPars, OptionalMinus;
 nonterminal ActualPars;
 nonterminal Assignop, Relop, Addop, Mulop;
 nonterminal Label, ElseTerminal;
-nonterminal CaseCase;
+nonterminal CaseCase, CaseDdot;
 
 precedence left ELSE;
 
@@ -293,9 +293,11 @@ Expr ::= (BasicExpr) OptionalMinus Expr1:expr
 		
 SwitchExpr ::= (SwitchExpr) SWITCH;
 		
-CaseStmt ::= (CaseStmt) CaseCase DDOT StmtList;
+CaseStmt ::= (CaseStmt) CaseCase CaseDdot StmtList;
 
 CaseCase ::= (CaseCase) CASE NUMBER;
+
+CaseDdot ::= (CaseDdot) DDOT;
 
 CaseList ::= (MultiCaseList) CaseList CaseStmt
 			|

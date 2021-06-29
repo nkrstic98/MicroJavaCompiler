@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 28/5/2021 19:53:0
+// 29/5/2021 0:22:17
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -12,11 +12,14 @@ public class CaseStmt implements SyntaxNode {
     public rs.etf.pp1.symboltable.concepts.Struct struct = null;
 
     private CaseCase CaseCase;
+    private CaseDdot CaseDdot;
     private StmtList StmtList;
 
-    public CaseStmt (CaseCase CaseCase, StmtList StmtList) {
+    public CaseStmt (CaseCase CaseCase, CaseDdot CaseDdot, StmtList StmtList) {
         this.CaseCase=CaseCase;
         if(CaseCase!=null) CaseCase.setParent(this);
+        this.CaseDdot=CaseDdot;
+        if(CaseDdot!=null) CaseDdot.setParent(this);
         this.StmtList=StmtList;
         if(StmtList!=null) StmtList.setParent(this);
     }
@@ -27,6 +30,14 @@ public class CaseStmt implements SyntaxNode {
 
     public void setCaseCase(CaseCase CaseCase) {
         this.CaseCase=CaseCase;
+    }
+
+    public CaseDdot getCaseDdot() {
+        return CaseDdot;
+    }
+
+    public void setCaseDdot(CaseDdot CaseDdot) {
+        this.CaseDdot=CaseDdot;
     }
 
     public StmtList getStmtList() {
@@ -59,17 +70,20 @@ public class CaseStmt implements SyntaxNode {
 
     public void childrenAccept(Visitor visitor) {
         if(CaseCase!=null) CaseCase.accept(visitor);
+        if(CaseDdot!=null) CaseDdot.accept(visitor);
         if(StmtList!=null) StmtList.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(CaseCase!=null) CaseCase.traverseTopDown(visitor);
+        if(CaseDdot!=null) CaseDdot.traverseTopDown(visitor);
         if(StmtList!=null) StmtList.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(CaseCase!=null) CaseCase.traverseBottomUp(visitor);
+        if(CaseDdot!=null) CaseDdot.traverseBottomUp(visitor);
         if(StmtList!=null) StmtList.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -81,6 +95,12 @@ public class CaseStmt implements SyntaxNode {
 
         if(CaseCase!=null)
             buffer.append(CaseCase.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(CaseDdot!=null)
+            buffer.append(CaseDdot.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

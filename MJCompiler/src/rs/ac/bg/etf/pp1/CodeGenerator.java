@@ -237,9 +237,40 @@ public class CodeGenerator extends VisitorAdaptor {
 		firstCase = true;
 	}
 	
+	boolean fixed_up = false;
 	public void visit(CaseCase caseStmt) {
 //		Code.loadConst(caseStmt.getN1());
 //		System.out.println("Visit case stmt" + caseStmt.getN1());
+		
+//		if(firstCase == true) {
+//			Code.put(Code.dup);
+//			//Code.put(Code.pop);
+//			Code.loadConst(caseStmt.getN1());
+//			Code.putFalseJump(Code.eq, 0);
+//			firstCase = false;
+//			val = Code.pc - 2;
+//		}
+//		else {
+//			if(fixed_up == false) {
+//				Code.fixup(val);
+//			}
+//			else {
+//				fixed_up = false;
+//			}
+//			Code.put(Code.dup);
+//			Code.loadConst(caseStmt.getN1());
+//			if(yieldHappened) {
+//				Code.putFalseJump(Code.eq, 0);
+//				yieldHappened = false;
+//			}
+//			else {
+//				Code.putJump(Code.pc + 4);
+//				Code.put(Code.pop);
+//				Code.put(Code.pop);
+//				fixed_up = true;
+//			}
+//			val = Code.pc - 2;
+//		}
 		
 		if(firstCase == true) {
 			Code.put(Code.dup);
@@ -253,16 +284,25 @@ public class CodeGenerator extends VisitorAdaptor {
 			Code.fixup(val);
 			Code.put(Code.dup);
 			//Code.put(Code.pop);
-			if(yieldHappened) {
+//			if(yieldHappened) {
 				Code.loadConst(caseStmt.getN1());
 				Code.putFalseJump(Code.eq, 0);
 				val = Code.pc - 2;
-			}
-			yieldHappened = false;
+//			}
+//			yieldHappened = false;
 		}
 	}
 	
+	public void visit(CaseStmt stmt) {
+		if(!yieldHappened) {
+			Code.put(Code.dup);
+			Code.putJump(Code.pc + 8);
+		}
+		yieldHappened = false;
+	}
+	
 	public void visit(DefaultStmt stmt) {
+		Code.loadConst(10);
 		Code.fixup(val);
 	}
 	

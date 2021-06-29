@@ -128,6 +128,7 @@ nonterminal Mulop Mulop;
 nonterminal Label Label;
 nonterminal ElseTerminal ElseTerminal;
 nonterminal CaseCase CaseCase;
+nonterminal CaseDdot CaseDdot;
 
 precedence left ELSE;
 
@@ -310,9 +311,11 @@ Expr ::= (BasicExpr) OptionalMinus:O1 Expr1:expr {: RESULT=new BasicExpr(O1, exp
 		
 SwitchExpr ::= (SwitchExpr) SWITCH {: RESULT=new SwitchExpr(); :};
 		
-CaseStmt ::= (CaseStmt) CaseCase:C1 DDOT StmtList:S2 {: RESULT=new CaseStmt(C1, S2); RESULT.setLine(C1left); :};
+CaseStmt ::= (CaseStmt) CaseCase:C1 CaseDdot:C2 StmtList:S3 {: RESULT=new CaseStmt(C1, C2, S3); RESULT.setLine(C1left); :};
 
 CaseCase ::= (CaseCase) CASE NUMBER:N1 {: RESULT=new CaseCase(N1); RESULT.setLine(N1left); :};
+
+CaseDdot ::= (CaseDdot) DDOT {: RESULT=new CaseDdot(); :};
 
 CaseList ::= (MultiCaseList) CaseList:C1 CaseStmt:C2 {: RESULT=new MultiCaseList(C1, C2); RESULT.setLine(C1left); :}
 			|
